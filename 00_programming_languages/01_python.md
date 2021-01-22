@@ -358,11 +358,72 @@ fstring을 이용하면 f"내용" 구조로, 출력할 변수는 {변수명}로 
 #### Sequence형 컨테이너
 
 - `List` `Tuple` `Range` `String` `Binary`
-
 - 데이터가 순서대로 나열된 것
 - **Sorted(정렬됨)** 의미하지 않음에 주의!!!
 - 순서를 가질 수 있음
 - Index 접근 가능
+
+##### List
+
+- 선언방식
+
+  1. a = []
+
+  2. a = list()
+
+  3. ```python
+     a = [
+         '김밥',
+         '라면'
+     ]
+     ```
+
+  4. **For문 이용**
+
+     ```python
+     # 자료를 따오고자 할 때
+     temp = [0,1,2,3,4,5,6,8,7]
+     test = []
+     for i in range(len(temp)):
+         test += [temp[i]]
+     
+     print(test)
+     # 그대로 카피함.
+     ```
+
+- 특정 원소의 수정, 읽기가 가능하다.
+
+##### Tuple
+
+- 선언방식
+
+  1. a = (1, 2) / 소괄호는 생략가능 a = 1, 2
+  2. 사실 모든 원소는 Tuple 형태로 이루어져 있음.
+
+  ```python
+  x, y = 1, 2 // # tuple
+  # 둘이 값을 바꾸고 싶을 때
+  x, y = y, x
+  ```
+
+  3. 빈 튜플의 생성도 가능 / a =()
+
+  4. ```python
+     #값이 하나라면 tuple로 출력이 불가능하므로
+     tuple = (1,) # 이와 같이 선언해 줍니다.
+     ```
+
+- 특정 원소의 수정 불가. 읽기는 가능
+
+##### Range
+
+- 기본적으로 길이 읽기 용임.
+
+##### String
+
+- 문자열
+
+##### Binary
 
 | 이름  | 선언방식                                                     | 상세                |
 | ----- | ------------------------------------------------------------ | ------------------- |
@@ -396,13 +457,27 @@ fstring을 이용하면 f"내용" 구조로, 출력할 변수는 {변수명}로 
 #### Non-Sequence형 컨테이너
 
 - `Set` `Dictionary` (중괄호팀)
-
 - 비시퀀스형 컨테이너는 인덱스의 순서를 보장하지 않는다.
 - 자료 순서가 멋대로 튀어나올 수 있으므로 항상 유의한다.
 
+##### Set
+
+- 선언방식
+  1. set = {}는 불가능! ( dict화됨)
+  2. set = {1,2,3}
+  3. set = set() 빈 괄호로 만들고 싶을떄
+
+##### Dictionary
+
+- 선언방식
+  1. a = {}
+  2. a = dict()
+- **KEY값**은 변경이 불가능하다
+- value값은 List, Dict 다 들어갈 수 있다.
+
 | 이름      | 선언방식                                                     | 상세          |
 | --------- | ------------------------------------------------------------ | ------------- |
-| Set       | `set_a = {}`  수학의 집합과 동일하게 처리. 빈 집합은  {}아닌 `set()`로 선언함. | set ={1,2,3}  |
+| Set       | `set_a = {1}` 수학의 집합과 동일하게 처리. 빈 집합은  {}아닌 `set()`로 선언함 | set ={1,2,3}  |
 |           | **비어있는 중괄호{}는 DICT로 정의하기로 약속했기 때문**      |               |
 |           | **중복값을 가질 수 없고, 순서도 없다.**  List의 중복값을 제거 후, 다시 List로 가능. | set(list_a)   |
 |           | `set(list_a)  list(set(list_a))`                             |               |
@@ -538,7 +613,187 @@ print('0보다 큼') if a > 0 else print('0보다 크지 않음')
 
 ### 11) 반복문(Loop Statement, FOR & WHILE)
 
+#### While문
 
+- 반드시 종료조건 설정이 필수이다.
+
+- 보통 코드 구성은 이와 같다.
+
+  ```python
+  a = 0 # for문과 달리 외부 변수설정이 필요한 경우가 99%다.
+  while a < 5:
+      print(a)
+      a += 1 # 이 코드가 없다면 무한루프에 빠지게 된다.
+  ```
+
+  ```python
+  message = ''
+  while message != '안녕':
+      print('안녕이라고 할 때까지 보내주지 않을 거에요.')
+      meesage  = input("'안녕'을 입력해주세요 : ")
+  print('안녕하세요')
+  ```
+
+  ```python
+  num = int(input())
+  i = 0
+  j = 0
+  while i < num:
+      i += 1
+      j += i
+  print(j)
+  
+  # 합을 구할 때도 인자가 두개 필요하다.
+  ```
+
+  
+
+#### For문
+
+- for <임시변수> in <순회가능한데이터(iterable)>: 
+
+  ​	<코드블럭>
+
+  ```python
+  #
+  for num in [1, 2, 3, 4, 5]:
+      print(num)
+  print('끝')
+  ```
+
+  ```python
+  # range(10) => 0~9 처음부터 끝까지 다 털어옴
+  for i in range(10):
+      # i = 하나씩 꺼내서 i에 저장중
+      print(i)
+  ```
+
+  ```python
+  nums = [1, 2, 3, 4, 5, 6 ,7, 8, 9, 10, 11]
+  j = 0
+  for i in range(1,11):
+      j = i + j
+  print(j)
+  
+  k = 1
+  for i in range(1, 11):
+      k = i*k
+  print(k)
+  ```
+
+```python
+# 이처럼 list의 index도 활용가능
+lunch = ['짜장면', '초밥', '피자', '햄버거']
+for idx in range(len(lunch)): # idx = index
+# print(idx) 전체길이를 0부터 4까지 하나씩. range를 index통으로 만들어서 사용.
+    print(idx+1, lunch[idx])
+```
+
+##### enumerate() 내장 함수
+
+- enumerate() 내장 함수를 활용시, 추가적인 변수 활용 가능
+
+```python
+# enumerate()를 활용해서 출력해봅시다.
+lunch = ['짜장면', '초밥', '피자', '햄버거']
+enumerate(lunch) # 주소값으로 어딘가 저장
+list(enumerate(lunch)) # 인덱스와 값을 튜플로 정렬해줌. 인덱스 , 값 둘이 같이 필요할때만! 씀
+
+#출력값
+# [(0, '짜장면'), (1, '초밥'), (2, '피자'), (3, '햄버거')]
+# Tuple로 반환
+```
+
+```python
+for idx, menu in enumerate(lunch): # 값이 항상 2개임에 유의
+    print(idx, menu)
+    
+# 출력값
+#0 짜장면
+#1 초밥
+#2 피자
+#3 햄버거
+```
+
+#### 반복제어
+
+##### break
+
+- `for`나 `while`문에서 탈출한다. java와같이 하나 위를 탈출함.
+
+  ```python
+  numbers = range(1, 100001)
+  user_input = int(input('십만 이하의 숫자를 입력하세요 : '))
+  
+  # 사용자 입력정수가 numbers에 있다면, True 출력/아니면 False 출력
+  while True:
+      if user_input in numbers:
+          print('True')
+          break # if문 바깥의 while문을 탈출함
+      else:
+          print('False')
+          break
+  else: # 여기 위치한다면 break가 필요가 없음.
+      print('False')
+  
+  for number in numbers:
+      if user_input == number:
+          print('True')
+          break  # 끝까지 더 찾으면서 Resource 찾을 필요가 없으니까
+      else:
+          print('False')
+          break
+          
+  numbers = [1, 27, 2, 3, 5, 19]
+  target = 10000
+  idx = 0
+  flag = False
+  while idx < len(numbers):
+      if target == numbers[idx]:
+          flag =True
+          break
+      idx += 1
+  ```
+
+##### Continue
+
+- 한 번의 수행을 건너뜀
+
+  ```python
+  for i in range(6):
+      if i % 2 == 0:
+          continue # 이번 회차는 생략(한단계 위의 것을 생략. 여기선 for문). 다음 회차로 JUMP함 
+      print(i)
+  ```
+
+  
+
+##### else
+
+- 반복문을 끝까지 시행하고 실행됨 (반복문 바깥에 있을 시. 바깥에 있으니까 당연히)
+
+- but 반복문이 `break`문으로 종료될때는 **실행되지 않는다.**
+
+  ```python
+  numbers = range(1, 100001)
+  user_input = int(input('십만 이하의 숫자를 입력하세요 : '))
+  
+  # 사용자 입력정수가 numbers에 있다면, True 출력/아니면 False 출력
+  while True:
+      if user_input in numbers:
+          print('True')
+          break
+  
+  else:
+      print('False')
+  ```
+
+  
+
+##### Pass
+
+- 아무 것도 하지 않음.
+- function을 만들어두고, 기능을 나중에 추가하고자 할때 보통 활용.
 
 ### 12) 함수(Function)
 
