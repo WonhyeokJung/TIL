@@ -171,6 +171,15 @@ fstring을 이용하면 f"내용" 구조로, 출력할 변수는 {변수명}로 
 - 복소수. 허수부를 j로 표현한다.
 - a = 3 - 4j
 
+| 명령어       | 설명                               | 예제          |
+| ------------ | ---------------------------------- | ------------- |
+| .real        | 실수부 출력                        | a.real        |
+| .imag        | 허수부 출력                        | a.imag        |
+| .conjugate() | 켤레복소수 출력                    | a.conjugate() |
+| abs()        | 절대값 리턴(int, float에서도 가능) | abs(a)        |
+
+
+
 #### String
 
 - Single quotes / Double quotes 로 표현
@@ -494,6 +503,8 @@ fstring을 이용하면 f"내용" 구조로, 출력할 변수는 {변수명}로 
 | .keys()   | 키 값들 확인                                                 | dict.keys()   |
 | .values() | 밸류 값들 확인`p_values = phone.values() / print(list(p_values))` | dict.values() |
 | .items()  | 키와 밸류값 전부 확인.                                       |               |
+| .clear()  | 키, 밸류값 전부 지우고 빈 딕셔너리만 남김.                   | dict.clear()  |
+| in        | 딕셔너리 안의 값 조회 가능 if '배' in dict: print(~)         | a in dict     |
 
 ```python
 for (k, v) in phone.items():
@@ -605,7 +616,14 @@ if score >= 90:
 print('0보다 큼') if a > 0 else print('0보다 크지 않음')
 ```
 
+#### if not x: x가 false일때, if문을 실행
 
+```python
+a = []
+if not a:
+    # 이 경우 if문은 실행될까?
+    # 실행된다. [] 빈 list는 false값을 출력하니까!
+```
 
 
 
@@ -799,6 +817,7 @@ for idx, menu in enumerate(lunch): # 값이 항상 2개임에 유의
 
 - 함수란 특정한 기능을 하는 코드의 묶음으로, 코드의 기능별 분화로 유지보수에 좋다.
 - 함수의 지역변수(Local valuable) 값은 JAVA와 같이, 함수 내에서만(지역 내에서만) 사용 가능하다.
+- 함수도 하나의 '값'이란 사실을 잊지 않는다. 다만 **우리가 길게 정의한 값**일 뿐이다.
 
 #### 함수의 선언
 
@@ -808,9 +827,346 @@ def func(x, y):
     return value  # 결과값 전달. return값이 없다면, None 반환.
 ```
 
-
-
-
-
 #### 함수의 호출
 
+- `func()` / `func(val1, val2)`와 같이 한다.
+
+#### 함수 예시
+
+```python
+# 주어진 수의 세제곱
+def cube(n):
+    result = n**3
+    return result # return값이 없으면 none반환. return 잊지 말 것!
+```
+
+```python
+# 사각형의 넓이
+def rectangle(i, j):
+    result = i*j
+    return result
+```
+
+#### 내장함수
+
+- built-in function
+
+  - 30가지가 있으며, python 문서에서 찾아볼 수 있다.
+  - https://docs.python.org/ko/3/library/functions.html
+
+- ```python
+  dir(print) # 처럼 검색을 통해 내장함수에서 사용 가능한 메서드도 검색이 가능하다.
+  ```
+
+
+
+#### 함수의 Output
+
+##### return
+
+- 오직 **한 개**의 객체만 반환.
+
+  ```python
+  return (a+b) # 가능(연산자로 결합이 가능하다면 하나로 반환 가능)
+  return a, b, c # 가능. 하나의 'Tuple'로 immutable한 객체를 반환
+  ```
+
+##### sort(정렬)
+
+- sort에는 2가지 종류가 있음. **변수명.sort() / sorted(변수명)**
+- **sorted**는 tuple도 가능. 완전히 새로운 변수를 만들어서 Return 즉, **함수**
+- a.sort()는 tuple은 불가능. 값을 변경하여 정렬하는 메서드이기 때문.
+- **메서드**에는 값변경, 값창출 두 가지 종류가 있고, 각각마다 다르므로 확인이 필수이다.
+
+
+
+#### 함수의 Input
+
+##### 매개변수(Parameter) & 인자(argument)
+
+###### 매개변수(Parameter)
+
+- ```python
+  def func(x):
+      return x + 2
+  ```
+
+- x가 parameter(매개변수)이다.
+
+- 입력을 받아 함수 내부에서 활용할 `변수`라고 생각하면 된다.
+
+###### 전달인자(argument)
+
+```python
+func(2)
+```
+
+- 여기서 2는 전달인자이다.
+- 함수 호출자가 입력한 `입력값`이라 보면 된다.
+- 함수 호출시 주로 볼 수 있다.
+
+
+
+##### 함수의 인자
+
+###### 위치인자(positional Argument)
+
+- 함수는 기본적으로 인자를 위치로 판단한다.
+
+- 따라서 인자 순서에 맞게 입력하는 것이 중요하다.
+
+  ```python
+  def (width, height)
+  # 넓이, 높이 순으로 입력 안하면 잘못된 결과가 출력된다.
+  ```
+
+###### 기본 인자 값(Default Argument Values) / 함수 선언시 이용
+
+- 기본 인자 값(디폴트 인자 값)도 입력이 가능하다
+
+  ```python
+  def greeting(name = '익명'):
+      print(f'{name}, 안녕?')
+      
+  # 호출시 인자 입력없이 greeting() 으로 호출하면 익명이 출력된다.
+  # 인자값을 입력시, 평소 함수랑 똑같이 출력되고, 안하면 디폴트 값으로 출력된다.
+  ```
+
+- Default 인자 다음에, 위치인자가 자리할 수는 없다.
+
+  ```python
+  def greeting(name = '익명', age): # ERROR. age에 디폴트 설정하지 않으면 불가능
+  ```
+
+
+
+###### 키워드 인자(Keyword Arguments)  / 함수 호출시 이용
+
+- 키워드 인자는 직접 변수의 이름으로 특정 인자의 전달이 가능
+
+  ```python
+  def greeting(age, name='익명'):
+      print(f'안녕, 난 {name} {age}살이야')
+  ```
+
+- 하지만, 디폴트 인자처럼 **키워드인자** 뒤에 **위치 인자** 활용은 불가능하다.(기본인자값과 원리 비슷!!)
+
+- 위치인자의 의미가 없어지기 때문이다.
+
+```python
+greeting(name='곰', age='30') # 가능. 전부 명확히 기재해 줘서. (뒤에 위치 인자가 없으니까)
+
+# 불가능. 위치 바꿔서
+greeting(name = '곰', 30): 
+# 키워드 인자 활용시, 위치 인자를 이어 사용은 불가능하다. but 반대로는 가능!
+# 가능. 순서를 명확히 지켜서
+greeting(30, '곰')
+```
+
+| 인자명( = 사용자가 매개변수에 입력한 값) | 형태                 | 활용                           |
+| ---------------------------------------- | -------------------- | ------------------------------ |
+| 위치인자                                 | (30, '홍길동' ..)    |                                |
+| 디폴트 인자 / def abc(a = '가'):         | ()입력X / ('홍길동') | 함수 선언시 뒤에 위치인자 못옴 |
+| 키워드 인자                              | (abc = '나다')       | 함수 호출시 뒤에 위치인자 못옴 |
+
+##### 가변(임의) 인자 리스트(Arbitary Argument Lists)
+
+###### *args
+
+- 임의의 개수의 인자를 받을 것임을 뜻하며,
+
+- 반환은 **TUPLE**로 반환된다.
+
+- *은 반드시 입력해야하고, args 부분은 원하는 매개변수명을 줄 수 있다.
+
+- 보통 매개변수 목록`func(a, b, *c)`의 마지막에 온다.
+
+  ```python
+  # 전달받은 모든 학생을 출력하고 싶다..
+  def students(*args):
+      for student in args:
+          print(student)
+  ##### 입력
+  students('희은', '대영', '태성')
+  print('---')
+  students('희은', '대영', '상진', '국현')
+  ##### 결과
+  희은
+  대영
+  태성
+  ---
+  희은
+  대영
+  상진
+  국현
+  ```
+
+  ```python
+  def students(*args, prof):
+      for student in args:
+          print(student)
+      print(f'존경하는 교수님 {prof}')
+  #####
+  #가변 인수 이후의 변수는 직접 키워드 인자로 활용. 위치 보장이 안되므로
+  students('희은', '태영', prof = '탁희')
+  ```
+
+- 가변인수 이후의 변수 입력은 직접 **키워드 인자** 활용이 필수이다. 위치 보장이 안되기 때문
+
+- 하지만 반대라면, 위치가 보장되니 키워드 인자는 불필요하다.
+
+##### 가변(임의) 키워드 인자(Arbitrary Keyword Arguments)
+
+###### **kwargs
+
+- 임의의 개수의 키워드 인자(a = 'b')를 받을 것을 의미하며,
+
+- 반환은 **dict**로 반환된다.
+
+- **은 입력 필수, kwargs는 원하는 매개변수명
+
+  ```python
+  # 딕셔너리 생성 함수 예시(가변 키워드 인자)
+  # dict()가 사실은 함수였음을 알 수 있다.
+  dict(name='홍길동', age='1000')
+  #####출력문
+  {'name': '홍길동', 'age': '1000'}
+  ```
+
+- 식별자는 숫자만으로 쓰일 수 없다.
+
+  ```python
+  # 주의사항
+  # 식별자는 숫자만으로는 이루어질 수가 없다.(키워드인자로 넘기면 함수 안에서 식별자로 쓰이기 때문)
+  dict(1='1', 2='2')
+  
+  # 위의 경우 다음과 같이 사용해야 한다.
+  dict(((1, 1), (2, 1)))
+  ```
+
+###### URL 생성 예시
+
+```python
+# 입력받은 가변 키워드 인자를 활용하여 'https://api.go.kr?'를 BASE_URL로한 URL을 생성하시오.
+def my_url(**kwargs): # keywordarguments
+    url = 'https://api.go.kr?'
+    print(kwargs.items(), type(kwargs.items()))
+    for name, value in kwargs.items(): # kwargs 딕셔너리 안에 name, value 값이 있다면
+        url += f'{name}={value}&'
+    return url
+#######입력값
+my_url(sidoname='서울', key='asdf')
+###### 출력값
+dict_items([('sidoname', '서울'), ('key', 'asdf')]) <class 'dict_items'>
+'https://api.go.kr?sidoname=서울&key=asdf&'
+```
+
+
+
+#### 함수와 스코프(Function and Scope)
+
+##### 스코프(Scope)
+
+- 스코프는 범위의 정의이고, 지역 스코프
+- 파이썬은 JAVA와 달리, for / while문 등 반복문에선 스코프가 적용되지 않고,
+- **오직 함수에서만 Scope가 적용된다**
+
+- **전역 스코프(`global scope`)**: 코드 어디에서든 참조할 수 있는 공간
+- **지역 스코프(`local scope`)**: 함수가 만든 스코프로 함수 내부에서만 참조할 수 있는 공간
+
+- **전역 변수(`global variable`)**: 전역 스코프에 정의된 변수
+- **지역 변수(`local variable`)**: 로컬 스코프에 정의된 변수
+
+- 함수 내부의 변수는 함수 내부에서만 값이 작동하며, 함수 외부에는 영향을 주지 못한다.
+
+
+
+##### 이름 검색 규칙(Resolution, LEGB Rule)
+
+- `L`ocal scope: 정의된 함수
+
+- `E`nclosing scope: 상위 함수 (어떤 함수를 감싼 함수)
+
+- `G`lobal scope: 함수 밖의 변수 혹은 import된 모듈
+
+- `B`uilt-in scope: 파이썬안에 내장되어 있는 함수 또는 속성
+
+- 이름 검색 규칙은 스코프 원리와 같다.
+
+- 본인 위치에서부터 이름 찾기를 수행하고(하나씩 아래로), 이름을 찾아내면 그 이후로는 찾지 않고 탈출함.
+
+- 예시
+
+  ```python
+  print = ssafy
+  print('abc') # 더이상 작동안됨
+  # `Built-in` 함수를 내 멋대로 `Global`에서 정의했기 때문
+  del(print)
+  #시 다시 한단계 아래의 Built-in이 활성화 되어 정상 사용 가능
+  ```
+
+  1. `print()` 코드가 실행되면
+  2. 함수에서 실행된 코드가 아니기 때문에 `L`, `E` 를 건너 뛰고,
+  3. `print`라는 식별자를 Global scope에서 찾아서 `print = ssafy`를 가져오고,
+
+  4. 이는 함수가 아니라 변수이기 때문에 `not callable`하다라는 오류를 내뱉게 됩니다.
+
+  5. 우리가 원하는 `print()`은 Built-in scope에 있기 때문입니다.
+
+##### 변수의 수명주기
+
+- **빌트인 스코프`(built-in scope)`**: 파이썬이 실행된 이후부터 영원히 유지
+
+- **전역 스코프`(global scope)`**: 모듈이 호출된 시점 이후 혹은 이름 선언된 이후부터 인터프리터가 끝날때 까지 유지
+
+- **지역(함수) 스코프`(local scope)`**: 함수가 호출될 때 생성되고, 함수가 가 종료될 때까지 유지 (함수 내에서 처리되지 않는 예외를 일으킬 때 삭제됨)
+
+
+
+#### 재귀함수
+
+- 자기 자신을 호출하는 함수
+
+- 비효율적이나(반복문보다 시간이 훨씬 많이 걸림) , 코드의 간결화를 꾀할 수 있다.
+
+- `base case` 의 존재가 필수이다. 안그러면 탈출하기 어렵기 때문.
+
+  ```python
+  # base case는 보통 if n ==1: return 1 등으로 정의된다.
+  ```
+
+  
+
+```python
+def sum_n(n):
+    # 1~n까지 더하는 코드를 작성하세요
+    #base code
+    if n == 1:
+        return 1 # n이 1이면 계속 sum_n(n-1) 주던걸 마무리하고 1을 내보내 함수를 종료한다.
+    else:
+        return n + sum_n(n-1) # 자기 자신을 호출하는 함수
+print(sum_n(20))
+```
+
+```python
+print('각 자리의 숫자 하나하나를 더한 값을 구해주는 함수입니다.')
+a = input("숫자를 입력해주세요 :")
+def sum_str_recur(string):
+    n = len(string)
+    if n == 1:
+        return int(string[0]);
+    else:
+        return int(string[n-1]) + sum_str_recur(string[0:n-1])
+    	#return int(string)//10) + sum_str_recur(string[0:n-1])
+print(sum_str_recur(a))
+```
+
+
+
+##### 최대재귀깊이
+
+- 자기 자신을 호출하는 재귀함수는 알고리즘 구현시 많이 사용된다.
+- 코드가 더 직관적이고 이해하기 쉬운 경우가 있다.
+- 팩토리얼 재귀함수를 [Python Tutor](https://goo.gl/k1hQYz)에서 확인해보면, 함수가 호출될 때마다 메모리 공간에 쌓이는 것을 볼 수 있다.
+- 이 경우, 메모리 스택이 넘치거나(Stack overflow) 프로그램 실행 속도가 늘어지는 단점이 생긴다.
+- 파이썬에서는 이를 방지하기 위해 3,000번이 넘어가게 되면 더이상 함수를 호출하지 않고, 종료된다. (최대 재귀 깊이)
