@@ -481,7 +481,7 @@ fstring을 이용하면 f"내용" 구조로, 출력할 변수는 {변수명}로 
 - 선언방식
   1. a = {}
   2. a = dict()
-- **KEY값**은 변경이 불가능하다
+- **KEY값**은 변경이 불가능하다(**Immutable**만 올수 있음)
 - value값은 List, Dict 다 들어갈 수 있다.
 
 | 이름      | 선언방식                                                     | 상세          |
@@ -1170,3 +1170,43 @@ print(sum_str_recur(a))
 - 팩토리얼 재귀함수를 [Python Tutor](https://goo.gl/k1hQYz)에서 확인해보면, 함수가 호출될 때마다 메모리 공간에 쌓이는 것을 볼 수 있다.
 - 이 경우, 메모리 스택이 넘치거나(Stack overflow) 프로그램 실행 속도가 늘어지는 단점이 생긴다.
 - 파이썬에서는 이를 방지하기 위해 3,000번이 넘어가게 되면 더이상 함수를 호출하지 않고, 종료된다. (최대 재귀 깊이)
+
+
+
+
+
+### 메서드 임시 저장
+
+- enumerate #sequence형의 인덱스와 값을 튜플로 묶어서 꺼내줌.
+
+- 앞으로 이거 쓰면 인덱스 찾아오는 귀찮은 짓 줄일수 있음. 아래 두개 코드 비교해볼것.
+
+  ```python
+  def low_and_up(string):
+      i = 0
+      result = ''
+      while i < len(string):
+          if i%2:
+              result += string[i].upper()
+          else:
+              result += string[i]
+          i += 1
+      return result
+  
+  def low_and_up(word):
+      result = ''
+      for idx, char in enumerate(word): # enumerate
+          if idx % 2:
+              result += char.upper()
+          else:
+              result += char.lower()
+      return result
+  ```
+
+  ```python
+  print(low_and_up('apple'))
+  print(low_and_up('banana'))
+  ```
+
+  
+
