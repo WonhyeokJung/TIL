@@ -1173,6 +1173,234 @@ print(sum_str_recur(a))
 
 
 
+### 13) 에러(Error)
+
+#### 문법 에러(Syntax Error)
+
+- 문법 에러가 있으면 실행되지 않는다.
+- EOL(끝맺음 실수), EOF, invalid syntax 등이 있다.
+
+#### 예외(Exception)
+
+- 예기치 못한 상황 발생을 의미
+- 문법적으론 옳지만, 실행시 발생
+
+| 에러                         | 의미                                                         |
+| ---------------------------- | ------------------------------------------------------------ |
+| ZeroDivisioError             | 0을 분모로 하는 나눗셈을 시행                                |
+| NameError                    | 정의되지 않은 변수 호출                                      |
+| TypeError                    | unsupported oerand type(s) 잘못된 타입 호출                  |
+| missing required positional~ | 인자(변수값)이 하나 덜 들어오거나 더 들어옴(함수에서)        |
+| index out of range           | 인덱스 범위 초과                                             |
+| KeyError                     | 딕셔너리에 없는 키 사용                                      |
+| ModuleNotFoundError          | 없는 모듈. 보통 import 잘못했을 때 발생                      |
+| ImportError                  | 모듈은 있으나, 가져오는 과정에서 실수(보통 클래스/함수 호출 오류) |
+| KeyboardInterrupt            | 사용자가 의도적으로 작동을 멈췄을 때                         |
+
+#### 예외 처리(Exception Handling)
+
+- Try & Except 이용
+
+```python
+try:
+    <코드 블럭 1>
+except [Error명]: # Error명 입력 안하면 모든 Error에 대응 가능하다.
+    <코드 블럭 2>
+else: # 에러 미발생시 실행할 구문
+finally: # 어떤 경우든 실행을 할 구문
+    
+    
+# 여러개 처리
+try:
+    <코드 블럭 1>
+except (예외1, 예외2):
+    <코드 블럭 2>
+
+
+try:
+    <코드 블럭 1>
+except 예외1:
+    <코드 블럭 2>
+except 예외2:
+    <코드 블럭 3>
+```
+
+- Try문에서 예외 발생할 시, Except문을 실행한다. 발생X시, Except문은 실행되지 않는다.
+
+- 예외 발생시, Try문 나머지는 건너뛴다.
+
+- as를 이용한 에러내용 보여주기도 가능하다.
+
+  ```python
+  try:
+      empty_list = []
+      print(empty_list[-1])
+  except IndexError as err:
+      print(f'{err}, 오류가 발생했습니다.')
+      
+  # 결과
+  # list index out of range, 오류가 발생했습니다.
+  ```
+
+- `Else`
+
+  에러가 발생하지 않는 경우 수행되는 문장은 Else로 처리
+
+- `finally`
+
+  반드시 수행해야 하는 문장. 모든 상황에서 실행되어야 하는 경우.
+
+- `raise`
+
+  에러 강제 발생 시키는 구문. 코드를 raise에서 멈추게 한다.
+
+  ```python
+  print('시작')
+  raise ZeroDivisionError('감히!')
+  print('끝') # 출력안됨. Raise는 코드를 멈추게 함.
+  ```
+
+- `assert`
+
+  예외 발생 시킴. **상태 검증에 이용**. 무조건 `AssertionError`가 일어난다.
+
+  ```python
+  assert Boolean expression, error message
+  
+  assert len([1, 2]) == 1, '길이가 1이 아닙니다.'
+  $ python code.py
+  Traceback (most recent call last):
+    File "code.py", line 1, in <module>
+      assert len([1, 2]) == 1, '길이가 1이 아닙니다.'
+  AssertionError: 길이가 1이 아닙니다.
+  
+  $ python -O code.py
+  ```
+
+
+
+### 14) 데이터 구조와 메서드(Data Structure & Method)
+
+#### Method의 Return 값 유무에 따른 차이
+
+- Return 값이 있다는 것은, 별도의 변수에 저장할 수 있다는 뜻임.
+
+  ```python
+  a = [1,2,3]
+  b = a.pop(0)
+  print(b)
+  # 결과
+  1
+  # 이처럼 Return이 있다면 별도의 변수명을 선언해서, 값을 저장해줄 수 있다.
+  ```
+
+  
+
+| 주제                               | Return O                 | Return X                    |
+| ---------------------------------- | ------------------------ | --------------------------- |
+| 원본 변경 여부                     | X. 새 값 생성            | O                           |
+| 새 주소값 생성                     | O                        | X(값은 값 참조)             |
+| 새 Parameter(변수명) 생성필요      | X                        | O                           |
+| 원본 재사용 가능 여부              | O. 원본은 그대로 존재함. | X. 원본변경. 기존값못돌아감 |
+| 새 변수명으로 새 값 새 주소에 저장 | O                        | X                           |
+| Return값                           | 새 값.                   | None                        |
+
+```python
+a = [1,2].append(3)
+# ([1,2].append(3))는 a란 함수의 변형이 아닌, [1,2]란 값에 append한 것인데,
+# 이러면 append는 Return이 없으므로, a를 변형한 것이 아닌 [1,2] 변형하고 없는 return값을
+# a에 돌려준 것이다. 그러므로 a자체를 변형할 수 있게, a.append로 해야 한다.
+print(a)
+# None
+# 결과값이 존재할 수 없다. Return값이 없기 때문이다.
+a.append(3) # 변수명.append 형태로 해 줘야함.
+```
+
+
+
+#### 문자열(String) Immutable, Ordered, Iterable 변경불가능, 순서있으며, 순회가능
+
+- https://docs.python.org/ko/3/library/stdtypes.html#string-methods
+
+| 주제      | 메서드                      | 설명                                                        | 예시              |
+| --------- | --------------------------- | ----------------------------------------------------------- | ----------------- |
+| 조회/탐색 | .find(x)                    | x의 첫번째 위치 반환. 없으면 `-1`반환                       | a.find('p',-2)    |
+|           | .index(x)                   | x의 첫번째 위치 반환. 없으면 `Error`                        | a.index('p')      |
+| 값 변경   | .replace(old, new[, count]) | 현재 글자, 바꿀 글자, [지정 개수]<br />지정개수 없으면 전부 | z.replace('a','') |
+|           | .strip([chars])             | 특정한 문자 양쪽 제거. 지정X시 공백제거                     |                   |
+|           | .lstrip, .rstrip            | 왼쪽, 오른쪽 제거                                           |                   |
+|           |                             | \r \t \n은 전부 공백으로 인식합니다.                        |                   |
+|           | .split()                    | 문자열 특정한 단위로 나누어 리스트 반환                     | a.split(',')      |
+|           | 'separator'.join(iterable)  | 특정한 문자열로 만들어 반환                                 | a.join('!')       |
+|           |                             | '배!고!파'                                                  |                   |
+| 문자 변형 | .capitalize()               | 앞글자만 대문자로                                           |                   |
+|           | .title()                    | 어퍼스트로피나 공백 이후 대문자로 반환                      |                   |
+|           | .upper()                    | 모두 대문자로 반환                                          |                   |
+|           | .lower()                    | 모두 소문자로 반환                                          |                   |
+|           | .swapcase()                 | 대<->소문자로 변경. 서로 변경 반환                          |                   |
+|           |                             |                                                             |                   |
+
+- 기타
+
+  ```python
+  .isalpha() # 알파벳인가
+  .isdecimal()
+  .isdigit()
+  .isnumeric() # 숫자관련 3형체
+  .isspace()
+  .issuper()
+  .istitle()
+  .islower()
+  ```
+
+
+
+#### 리스트(List) Immutable, Ordered, Iterable
+
+- https://docs.python.org/ko/3/tutorial/datastructures.html#more-on-lists
+
+##### 값 추가 및 삭제
+
+| Methods           | 설명                                      | 예시                  | Return값 유무  |
+| ----------------- | ----------------------------------------- | --------------------- | -------------- |
+| .append(x)        | 값 추가(맨 뒤에)                          | a.append('hi')        | X. 원본 수정   |
+| .extend(iterable) | 값 추가. 여러개 가능                      | a.extend([]'이디야']) |                |
+| .insert(i, x)     | 정해진 위치 `i`에 값 추가                 | a.insert(0, 'hi')     |                |
+| .remove(x)        | 값이 x인 것을 하나만 삭제. 없으면 `error` | a.remove(1)           |                |
+| .pop(i)           | `i`위치의 값 삭제 후, 그 항목 Return      | a.pop(0)              | O. 제거된값    |
+| .clear()          | List의 모든 항목 삭제. []만 남음.         | a.clear()             | X. 원본을 비움 |
+
+##### 탐색 및 정렬
+
+| Methods   | 설명                                           | 예시         | Return값 유무 |
+| --------- | ---------------------------------------------- | ------------ | ------------- |
+| .index(x) | x 값 찾아 해당 `index` 값 반환. 없으면 `error` | a.index('a') | O.            |
+| .count(x) | 원하는 값의 개수를 확인 가능((1)시, 1의 개수)  | a.count('a') |               |
+| .sort(x)  | 정렬.                                          | a.sort()     | X. 원본 수정  |
+
+- .count(x)의 응용
+
+```python
+a =[1,2,5,2,1,5]
+# 1 다 지우기
+for i in range(a.count(1)):
+#a.count(1) =3 이고 0,1,2 순으로 계속 1 제거하는 것. 즉 숫자 몇갠지 계산 안해도 되는것.
+    a.remove(1)
+a
+
+# 결과 [2,5,2,5]
+```
+
+- sorted()와 sort의 차이
+
+  | 주제         | sorted()   | sort()    |
+  | ------------ | ---------- | --------- |
+  | 정의         | 내장함수   | 메서드    |
+  | 원본 값 여부 | 새 값 할당 | 원본 변형 |
+  | Return값     | 새 값      | None      |
+
+  
+
 
 
 ### 메서드 임시 저장
