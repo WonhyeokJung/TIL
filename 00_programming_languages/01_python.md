@@ -161,6 +161,7 @@ fstring을 이용하면 f"내용" 구조로, 출력할 변수는 {변수명}로 
 ##### float
 
 - 부동소수점.실수(float)
+- 소숫점을 포함하거나, e를 포함.
 - e/E도 사용가능. eg. pi = 314e-2 -> 3.14
 - 부동소수점 처리 `abs(0.38-0.23) <= 1e-10 #정말 작은 수보다 더 작은 지 T/F 판단`
 - 혹은  `import math \ math.isclose(a, b) 연산값과 기대값이 가까운가로 확인`
@@ -402,6 +403,71 @@ fstring을 이용하면 f"내용" 구조로, 출력할 변수는 {변수명}로 
 
 - 특정 원소의 수정, 읽기가 가능하다.
 
+###### List의 복사 (mutable의 복사)
+
+- List, Dict, Set
+
+> ```python
+> import copy
+> a = [1, 2, 3]
+> # 같은 주소값
+> b = a # 같은 주소값 참조로 값 변경시 같이 변함
+> # 다른 주소값(새로생성)
+> b = a[:] # Slice 연산자
+> c = list(a) # list() 활용. 
+> d = copy.copy(a)
+> ```
+
+- Mutable은 이처럼 같은 주소값을 참조하여 값이 같이 변한다.
+
+###### Swallow Copy(얕은 복사) vs Deep Copy(깊은 복사)
+
+- 위의 것은 얕은 복사였다. 2차원 배열의 경우 2차원 값은 여전히 같은 주소값을 참조하기 때문이다.
+
+> ```python
+> a =[[1, 2, 3], 2, 3]
+> b = list(a)
+> b = a
+> print(a, b)
+> b[0][0] = 100
+> print(a, b) # 둘 다 [[100, 2, 3], 2, 3]
+> b[1] = '원소'
+> print(a, b) # 둘 다 [1]값 '원소'로. 2차원배열이 속해 있어 주소값이 둘은 여전히 같다..
+> ```
+
+- deepcopy() 메서드를 사용하여 분리할 수 있다.
+
+```python
+import copy
+a = [[1,2,3],2,3]
+b = copy.deepcopy(a) # 이거 사용 해야함
+print(a,b)
+b[0][0] = 100
+print(a, b)
+# [[1, 2, 3], 2, 3] [[100, 2, 3], 2, 3]
+```
+
+
+
+###### 그렇다면, String의 복사는? (Immutable의 복사)
+
+- Number, String, Boolean, Range(), Tuple(), Frozenset()
+
+> ```python
+> # 값 변경이 불가능. 서로 다른 값을 출력. 주소값 역시 다름.
+> a = '안녕하세요'
+> b = a # 주소값이 같았으나,
+> b = 10 # 주소값이 다시 달라져버려
+> print(a) # '안녕하세요'
+> print(b) # 10
+> print(id(a))
+> print(id(b))
+> ```
+
+
+
+
+
 ##### Tuple
 
 - 선언방식
@@ -544,7 +610,7 @@ num2 = num1 # 주소값을 참조하지 않음. 그냥 값 자체를 받아옴.
 num2 = 10
 print(num1, num2)
 result : 20, 10
-num값이 바뀌지 않음!
+num1값이 바뀌지 않음!
 ```
 
 - 리터럴(literal)
@@ -1355,7 +1421,7 @@ a.append(3) # 변수명.append 형태로 해 줘야함.
 
 
 
-#### 리스트(List) Immutable, Ordered, Iterable
+#### 리스트(List) Mutable, Ordered, Iterable
 
 - https://docs.python.org/ko/3/tutorial/datastructures.html#more-on-lists
 
@@ -1393,15 +1459,76 @@ a
 
 - sorted()와 sort의 차이
 
-  | 주제         | sorted()   | sort()    |
-  | ------------ | ---------- | --------- |
-  | 정의         | 내장함수   | 메서드    |
-  | 원본 값 여부 | 새 값 할당 | 원본 변형 |
-  | Return값     | 새 값      | None      |
+  | 주제         | sorted()                    | sort()                          |
+  | ------------ | --------------------------- | ------------------------------- |
+  | 정의         | 내장함수(Built-in Function) | 메서드(Method)                  |
+  | 원본 값 여부 | 새 값 할당( a = sorted(x))  | 원본 변형(x.sort() \n print(x)) |
+  | Return값     | 새 값                       | None                            |
 
-  
+
+##### .reverse() **_정렬아님!!_**
+
+```python
+# 반대로 뒤집습니다.
+classroom = ['Tom', 'Stiffany', 'Karen']
+classroom.reverse()
+print(classroom) # Return값이 없다는 것.
+```
+
+##### List Comprehension
+
+- 표현식과 제어문을 통해 리스트를 생성하는 방식
+- 여러 줄의 코드를 한줄로 줄일 수 있음.
+- Set도 가능함.(Mutable이어서일까?)
+
+```python
+# 선언 방식
+[expression(출력될 것) for '변수' in iterable]
+# 예제
+[
+    0 for i in range(10)
+]
+# [0,0,0,0,0,0,0,0,0,0]
+
+# 예제2. 직접 출력해 보세요
+[
+    [0 for i in range(5)] for i in range(5)
+]
+
+# 예제3.
+['홀' if i%2 else '짝' for i in range(10)]
+#['짝', '홀','짝', '홀','짝', '홀','짝', '홀','짝', '홀']
+
+# 세제곱 만들기
+numbers = range(1, 11)
+[
+    i**3 for i in numbers
+]
+```
+
+###### List Comprehension + 조건문
+
+- 조건문을 포함하여 리스트를 생성
+
+> ```python
+> # 선언 방식
+> [expression for '변수' in iterable if 조건식]
+> [expression if 조건식 else 식 for '변수' in iterable]
+> 
+> #예제. 짝수리스트
+> ```
+
+계속 작성해주새오.
+
+
 
 ### 객체 지향 프로그래밍(Object Oriented Programming)
+
+#### Python의 메모리 관리 원칙
+
+- 컴퓨터는 자료를 보조기억장치(HDD, SDD 등)에서 주기억 장치(RAM)로 읽어, 중앙처리장치(CPU)에서 처리한다.
+- RAM은 Byte마다 번지가 정해져있어, 자료를 각 번지에 할당, 이 상황을 제어하기 위해 우리는 변수를 선언하고 값을 할당하게 된다.
+- 한 번 할당된 메모리 공간은 절대 다른 목적을 위해 **재할당** 되지 않음.(값 할당 해제 or 그 값의 변형만)
 
 #### 변수, 상수, 리터럴, 객체, 인스턴스, 매개변수, 전달인자의 비교
 
@@ -1413,7 +1540,9 @@ a
 
 - 즉, 변수는 마치 집주소를 주는 것과 같다.
 
-- 변수와 String의 차이점은 Single Quote('')없이 선언한다는 것이다.
+- 변수와 String의 차이점은 변수는 Single Quote('')없이 선언한다는 것이다.
+
+- 항상 맨 마지막 값만 기억한다.
 
 - **Return이 있는 값들** 등은 변수명 설정을 안해주면 값 되찾기가 불가능하여 **변수명 설정이 필수이다.**
 
@@ -1431,7 +1560,62 @@ a
   		# 값은 지속적으로 새로 할당해 변경할 수 있는 점을 잊지 않는다.
   ```
 
-  
+
+
+
+##### 상수(Constant)
+
+- 항상 같은 값을 저장하는 곳
+- `PI = 3.14` 등이 있음.
+- 변경이 가능하면 상수가 아님에 유의
+
+
+
+##### 리터럴
+
+- 숫자(Integer, Float, Complex)
+- 문자열(String)
+- 논리값(Boolean, True는 1, False는 0)
+- 특수(None)
+- 컬렉션(Collection) `List`,`Tuple`,`Dictionary`,`set`
+
+##### 함수(Function)
+
+###### 매개변수(Parameter) & 인자(Arguments)
+
+- 혼용되어 사용되므로 구분에 주의
+- Parameter는 함수에 입력으로 전달된 값을 받는 **변수**
+- 함수를 호출할 때 전달하는 입력값
+
+```python
+def add(a, b): # 매개변수 a,b
+    return a + b
+print(add(3,4)) # 인수 3, 4
+```
+
+
+
+##### 클래스(Class), 메서드(Method), 객체(Object) & 인스턴스(Instance)
+
+- Class는 제품을 생산할 설계도
+
+- Method는 설계도를 실제화한 도구들
+
+- Object, Instance는 도구를 통해 생산된 구제적 제품
+
+  ```python
+  # 객체와 인스턴스의 차이
+  a = Cookie()에서 a는 Cookie Class의 구체적 값을 저장하고 있다.
+  a는 따라서 '객체'이다.
+  하지만 a는 Cookie Class 입장에선 수많은 객체들 중 하나이다.
+  따라서, a는 Cookie의 인스턴스이다.
+  ```
+
+- 객체를 클래스 기준에서 보면 인스턴스(수많은 객체들 중 하나), 객체 자체를 기준으로 보면 객체
+
+
+
+
 
 - 위 개념들은 파이썬 언어를 공부하면서 끊임없이 머릿 속에서 충돌하게 되는 언어들인데, 그 때를 위해 참고할 수 있도록 간략하게 정리해둔다.
 
