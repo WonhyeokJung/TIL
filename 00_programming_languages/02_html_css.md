@@ -31,7 +31,8 @@
 > 기본 구조는 이와 같다.
 
 ```html
-<!DOCTYPE html> # HTML 등장 선언
+<!DOCTYPE html> # HTML 등장 선언 vscode : !`tab`시 이 모든 것을 자동완성해줌.
+#태그도 <> 없이 입력 후 `tab` 하면 자동완성이 가능하다.
 <!-- 주석 -->
 <html lang="en">
 # Dont need to make 2 spaces for had and body.
@@ -100,10 +101,24 @@
 
 - css로 스타일을 지정하기 전까진 내용이나 스타일에 영향을 끼치지 않는 태그
 
-| Tag name | role | else |
-| -------- | ---- | ---- |
-| `<div>`  |      |      |
-| `<span>` |      |      |
+| Tag name | role                      | else |
+| -------- | ------------------------- | ---- |
+| `<div>`  | 의미 없는 Block line 생성 |      |
+| `<span>` | 의미 없는 Inline 생성     |      |
+
+> **BLOCK LINE AND INLINE?**
+>
+> 블럭 라인은, 좌우의 여백이 있어도 다른 요소의 접근을 허용하지 않는 것이다. 혼자 한 줄을 다 차지한다.
+>
+> but 인라인은 다른 요소와 함께 위치를 차지할 수 있다.
+
+### INLINE을 BLOCK LINE으로 만들고 싶다면?
+
+```html
+<dir>
+  #인라인 요소를 이 안으로 넣으면 하나의 블럭요소로 활용할 수 있다.
+</dir>
+```
 
 
 
@@ -139,6 +154,42 @@
 
 
 
+### 그 외 태그
+
+| 태그명     | 이름                         | 역할                                 | 기타                                      |
+| ---------- | ---------------------------- | ------------------------------------ | ----------------------------------------- |
+| 00         |                              |                                      |                                           |
+| `<a>`      | anchor                       | Hyperlink 연결. 로컬 주소도 가능.    | `<a href="url.html">여기를 눌러요!! </a>` |
+| `<p>`      | paragraph(문단)              | 하나의 문단 만들 때 사용             | `<p>문단1</p>`                            |
+| `<br>`     | break line                   | 강제 개행                            | `<br>`                                    |
+| `<img>`    | image                        |                                      | Inline 태그이다.                          |
+| `<hr>`     | horizontal line              | 가로 줄을 추가한다.(CSS)             | <hr> 가로로 된 구분자를 출력              |
+| `<h1>`     | headings                     | 제목 추가.                           | `<h1>제목</h1>`                           |
+|            |                              |                                      |                                           |
+| 01         | Elements related to **Text** |                                      |                                           |
+| `<b>`      | 굵게(BOLD)                   | 굵게. 왜 굵게 하는지 의미는 없음.    | 사용 기피할것.                            |
+| `<strong>` | 굵게 + 의미 부여             | 중요하다는 Point를 주는 의미를 가짐. | `<strong>a</strong>`                      |
+|            |                              |                                      |                                           |
+| 02         | Elements related to **form** |                                      |                                           |
+| `<form>`   |                              | 서버에서 처리될 데이터 제공하는 역할 |                                           |
+|            | 2 elements are necessary     | action / method                      |                                           |
+| 필수태그   | `<input>`                    | 입력 데이터 필드                     |                                           |
+|            | `<label>`                    | 서식 입력 요소의 캡션                |                                           |
+|            | `<name>`                     |                                      |                                           |
+|            | `<placeholder>`              |                                      |                                           |
+|            | `<required>`                 |                                      |                                           |
+|            | `<autofocus>`                |                                      |                                           |
+
+### 유용한 단축키(vscode 기준)
+
+| 단축키          | 설명                                  | 기타      |
+| --------------- | ------------------------------------- | --------- |
+| Tag명 > Tag명*n | Tag명 내에 Tag명을 n개 만큼 생성한다. | ul > li*3 |
+| `>`             | 자손 의미                             | div > div |
+|                 |                                       |           |
+
+
+
 
 
 ## Conventions & Style guide
@@ -150,6 +201,8 @@
 
 ## 참고 문헌
 
+> 무언가 검색하고 싶은 경우, 필요한 검색어 + 'mdn'으로 검색해주면 보통 찾을 수 있다.
+
 https://developer.mozilla.org/ko/docs/Learn/HTML/Introduction_to_HTML/Getting_started
 
 https://developer.mozilla.org/ko/docs/Web/HTML/Global_attributes
@@ -158,13 +211,13 @@ https://developer.mozilla.org/ko/docs/Glossary/Semantics
 
 
 
-
-
 # CSS
 
 > 사용자에게 HTML을 표시하는 방법을 지정하는 언어 (좀 더 GUI적인 부분에 가까운 언어)
 >
-> 기본 구조는 이와 같다.
+> Font 색 , 사이즈 변경, Padding 등의 사이즈 변경 등은 전부 여기서 하는 것이다.
+>
+> 기본 구조 = Selector + Declaration{Property + Value}
 
 `h1#Selector(선택자)`
 
@@ -176,4 +229,27 @@ p{background: yellowgreen; color: darkgreen;}
 ```
 
 
+
+## 선언방식
+
+1. 각 Tag 내 Style 직접 사용 (= Inline Style)
+
+   ```html
+   <h1 style="color:blue; font=size: 100px;>제목</h1>
+              # h1 내에 직접적으로 Style을 선언해주었다.
+   ```
+
+2. `<head>` Tag 내에 `<style>` 지정 ( = 내부참조 Internal Style Sheet)
+
+   ```css
+   <style>
+   #클래스(.)가 아닌 Tag명eg.<h1>에 직접적으로 Style을 지정하였다.
+   header{
+   color : blue;
+   }
+   </style>
+```
+   1. 경로를 Tag명으로 직접 줄 때의 **주의사항**
+   
+   저렇게 css를 작성하면 모든 `<header>`가 동일한 모습이 되어버리는데, 사실 '헤더'라는건 역할이기 때문에, 다양한 위치에 들어갈 수 있고, 각 위치에서 스타일링을 다르게 해야하는 경우도 많습니다.
 
