@@ -248,8 +248,16 @@ p{background: yellowgreen; color: darkgreen;}
    color : blue;
    }
    </style>
+   ```
 ```
    1. 경로를 Tag명으로 직접 줄 때의 **주의사항**
    
    저렇게 css를 작성하면 모든 `<header>`가 동일한 모습이 되어버리는데, 사실 '헤더'라는건 역할이기 때문에, 다양한 위치에 들어갈 수 있고, 각 위치에서 스타일링을 다르게 해야하는 경우도 많습니다.
+
+
+```
+
+
+
+# BOOTSTRAP
 
