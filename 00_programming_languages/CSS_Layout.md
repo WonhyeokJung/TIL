@@ -90,7 +90,7 @@ self - 개별 요소
 
 <br>
 
-**flex-direction**
+**flex-direction [배칭방향설정]**
 
 >  쌓이는 방향 설정 (main-axis 의 방향만 바뀜. flex 는 single-direction layout concept 이기 때문)
 
@@ -110,7 +110,7 @@ self - 개별 요소
 >  item들이 강제로 한 줄에 배치 되게 할 것인지 여부 설정
 
 - nowrap (기본 값)
-  - 모든 아이템들 한 줄에 나타내려고 함 (그래서 자리가 없어도 튀어나옴)
+  - 모든 아이템들 한 줄에 나타내려고 함 (그래서 자리가 없어도 튀어나옴). 무조건 한줄에 넣기
 - wrap : 넘치면 그 다음 줄로
 - wrap-reverse : 넘치면 그 윗줄로 (역순)
 
@@ -126,7 +126,7 @@ flex-flow: row nowrap;
 
 <br>
 
-**justify-content**
+**justify-content[메인 축 기준 여러줄 정렬]**
 
 > main axis 정렬
 >
@@ -146,7 +146,7 @@ flex-flow: row nowrap;
 
 <br>
 
-**align-items**
+**align-items[교차축 기준 한줄 정렬]**
 
 > cross axis 여러 줄 정렬
 >
@@ -161,6 +161,10 @@ flex-flow: row nowrap;
 - center
 - baseline
   - item 내부의 text에 기준선을 맞춤
+
+**align-content와의 차이**
+
+- `align-content`는 여러 줄들 사이의 간격을 지정하며, `align-items`는 컨테이너 안에서 어떻게 모든 요소들이 정렬하는지를 지정합니다. 한 줄만 있는 경우, `align-content`는 효과를 보이지 않습니다.
 
 <br>
 
@@ -211,6 +215,12 @@ flex-flow: row nowrap;
 
 <br>
 
+**Content Delivery(Distribution) Network**
+
+- 컨텐츠(CSS, JS, Image, Text 등)을 효율적으로 전달하기 위해 여러 노드에 가진 네트워크에 데이터를 제공하느 시스템.
+
+<br>
+
 **Responsive web design**
 
 - layout은 방문자의 화면 해상도를 고려하여야 한다.
@@ -219,6 +229,8 @@ flex-flow: row nowrap;
 - 데스크탑용, 테블릿용, 모바일용 웹사이트를 별도 구축할 수도 있지만 One Source Multi Use의 관점에서 올바른 해결책은 아니다.
 - 반응형 웹 디자인(Responsive Web Design)은 화면 해상도에 따라 가로폭이나 배치를 변경하여 가독성을 높여 이러한 문제를 해결한다.
 - 즉, 하나의 웹사이트를 구축하여 다양한 디바이스의 화면 해상도에 최적화된 웹사이트를 제공하는 것이다. 
+- 예시
+  - Media Queries, Flexbox, Bootstrap Grid System, The viewport meta tag
 
 <br>
 
@@ -227,6 +239,8 @@ flex-flow: row nowrap;
 <br>
 
 ## Bootstrap Grid System
+
+> 12 Column & 6 Grid Breakpoints
 
 **Grid System**
 
@@ -271,6 +285,10 @@ flex-flow: row nowrap;
 
 - 부트스트랩 grid system 은 다양한 디바이스에서 적용하기 위해 특정 px 조건에 대한 지점을 정해 두었는데 이를 breakpoints 라고 한다.
 - 부트스트랩은 대부분의 크기를 정의하기 위해 em 또는 rem 을 사용하지만 px 는 그리드  breakpoint 에 사용된다. (뷰포트 너비가 픽셀 단위이고 글꼴 크기에 따라 변하지 않기 때문)
+
+![image-20210207215535828](CSS_Layout.assets/image-20210207215535828.png)
+
+
 
 <br>
 

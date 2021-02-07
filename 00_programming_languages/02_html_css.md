@@ -37,7 +37,7 @@
 <html lang="en">
 # Dont need to make 2 spaces for had and body.
 <head> # 브라우저에 나타나지 않음. CSS 선언 혹은 외부 파일 로딩 등에 사용
-  <meta charset="UTF-8">
+  <meta charset="UTF-8"> # 인코딩 언어 설정. UTF-8 기본적인 유니코드 라인업을 사용.
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>웹페이지 상단 Bar에 나오는 부분</title>
   <style>
@@ -55,11 +55,13 @@
 
 
 
-### **DOM**
+### **DOM(Document Object Model)**
 
 - DOM은 문서의 구조화된 표현(structured representation)을 제공하며 프로그래밍 언어가 DOM 구조에 접근할 수 있는 방법을 제공하여 그들이 문서 구조, 스타일, 내용 등을 변경할 수 있게 도움
 - DOM은 동일한 문서를 표현하고, 저장하고, 조작하는 방법을 제공(= 문서의 상속구조 표현)
 - 웹 페이지의 객체 지향 표현
+
+![image-20210207202134046](02_html_css.assets/image-20210207202134046.png)
 
 ### **요소 (Element)**
 
@@ -80,10 +82,27 @@
 
 ### **속성 (Attribute)**
 
+- `<a #속성href=""></a>` 
+- `style, class` 등등이 모두 속성이다.
+
 - 속성(Attribute)은 태그의 부가적인 정보가 들어온다.
 - 요소는 속성을 가질 수 있으며 요소에 추가적 정보(이미지 파일의 경로, 크기 등)를 제공한다. 
 - 요소의 시작 태그에 위치해야 하며 **이름**과 **값**의 쌍을 이룬다.
 - 태그와 상관없이 사용 가능한 속성들(html global attribute)도 있다.
+
+> 공통 사용 속성
+>
+> | 속성명   | 기능                                                 | 상세         |
+> | -------- | ---------------------------------------------------- | ------------ |
+> | id       | 고유의 아이디값을 부여                               | <a id="">    |
+> | class    | 기존에 완성되어 있는 클래스 사용시                   | <a class=""> |
+> | hidden   | 숨김 기능                                            |              |
+> | lang     |                                                      |              |
+> | style    | 스타일 지정(폰트 크기, 컨텐츠 크기, 패딩, 마진 등등) |              |
+> | tabindex |                                                      |              |
+> | title    |                                                      |              |
+>
+> 
 
 ### Open Graph Protocol(OG)
 
@@ -115,9 +134,9 @@
 ### INLINE을 BLOCK LINE으로 만들고 싶다면?
 
 ```html
-<dir>
+<div>
   #인라인 요소를 이 안으로 넣으면 하나의 블럭요소로 활용할 수 있다.
-</dir>
+</div>
 ```
 
 
@@ -127,6 +146,8 @@
 > 브라우저, 검색엔진, 개발자 모두에게 콘텐츠의 의미를 명확히 설명하는 태그
 >
 > 기존에는 의미없는 태그 div의 사용을 남발하였으나, 의미를 갖고 있는 시맨틱 태그가 등장한다.
+
+![image-20210207202513080](02_html_css.assets/image-20210207202513080.png)
 
 **장점**
 
@@ -143,50 +164,82 @@
 
 ### 대표적인 시맨틱 태그
 
-| 태그명      | 역할         | 기타 |
-| ----------- | ------------ | ---- |
-| `<header>`  |              |      |
-| `<nav>`     |              |      |
-| `<aside>`   |              |      |
-| `<section>` |              |      |
-| `<article>` |              |      |
-| `<footer>`  | 맨 아래 섹션 |      |
+| 태그명      | 역할                                  | 기타 |
+| ----------- | ------------------------------------- | ---- |
+| `<header>`  |                                       |      |
+| `<nav>`     |                                       |      |
+| `<aside>`   | 섹션 옆에 메뉴 등 줄때 보통 사용한다. |      |
+| `<section>` |                                       |      |
+| `<article>` | 섹션 내부 요소.                       |      |
+| `<footer>`  | 맨 아래 섹션                          |      |
 
 
 
 ### 그 외 태그
 
-| 태그명     | 이름                         | 역할                                 | 기타                                      |
-| ---------- | ---------------------------- | ------------------------------------ | ----------------------------------------- |
-| 00         |                              |                                      |                                           |
-| `<a>`      | anchor                       | Hyperlink 연결. 로컬 주소도 가능.    | `<a href="url.html">여기를 눌러요!! </a>` |
-| `<p>`      | paragraph(문단)              | 하나의 문단 만들 때 사용             | `<p>문단1</p>`                            |
-| `<br>`     | break line                   | 강제 개행                            | `<br>`                                    |
-| `<img>`    | image                        |                                      | Inline 태그이다.                          |
-| `<hr>`     | horizontal line              | 가로 줄을 추가한다.(CSS)             | <hr> 가로로 된 구분자를 출력              |
-| `<h1>`     | headings                     | 제목 추가.                           | `<h1>제목</h1>`                           |
-|            |                              |                                      |                                           |
-| 01         | Elements related to **Text** |                                      |                                           |
-| `<b>`      | 굵게(BOLD)                   | 굵게. 왜 굵게 하는지 의미는 없음.    | 사용 기피할것.                            |
-| `<strong>` | 굵게 + 의미 부여             | 중요하다는 Point를 주는 의미를 가짐. | `<strong>a</strong>`                      |
-|            |                              |                                      |                                           |
-| 02         | Elements related to **form** |                                      |                                           |
-| `<form>`   |                              | 서버에서 처리될 데이터 제공하는 역할 |                                           |
-|            | 2 elements are necessary     | action / method                      |                                           |
-| 필수태그   | `<input>`                    | 입력 데이터 필드                     |                                           |
-|            | `<label>`                    | 서식 입력 요소의 캡션                |                                           |
-|            | `<name>`                     |                                      |                                           |
-|            | `<placeholder>`              |                                      |                                           |
-|            | `<required>`                 |                                      |                                           |
-|            | `<autofocus>`                |                                      |                                           |
+| 태그명     | 이름                         | 역할                                           | 기타                                      |
+| ---------- | ---------------------------- | ---------------------------------------------- | ----------------------------------------- |
+| 00         |                              |                                                |                                           |
+| `<a>`      | anchor                       | Hyperlink 연결. 로컬 주소도 가능.              | `<a href="url.html">여기를 눌러요!! </a>` |
+| `<p>`      | paragraph(문단)              | 하나의 문단 만들 때 사용.블록 태그이다.        | `<p>문단1</p>`                            |
+| `<br>`     | break line                   | 강제 개행                                      | `<br>`                                    |
+| `<img>`    | image                        |                                                | Inline 태그이다.                          |
+| `<hr>`     | horizontal line              | 가로 줄을 추가한다.(CSS)                       | <hr> 가로로 된 구분자를 출력              |
+| `<h1>`     | headings                     | 제목 추가.                                     | `<h1>제목</h1>`                           |
+| `<ol>`     | Ordered List                 | 순서가 있는 목록. 내부 컨텐츠에 숫자가 붙는다. | `<ol> <li>hi</li> </ol>`                  |
+| `<ul>`     | Unordered List               | 순서없는 목록. 숫자대신 점이 찍힘.             | `<ol> <li>hi</li> </ol>`                  |
+| `<div>`    |                              | 의미없는 블록요소.                             |                                           |
+| `<span>`   |                              | 의미없는 인라인요소.                           |                                           |
+|            |                              |                                                |                                           |
+| 01         | Elements related to **Text** |                                                |                                           |
+| `<b>`      | 굵게(BOLD)                   | 굵게. 왜 굵게 하는지 의미는 없음.              | 사용 기피할것.                            |
+| `<strong>` | 굵게 + 의미 부여             | 중요하다는 Point를 주는 의미를 가짐.           | `<strong>a</strong>`                      |
+| `<i>`      | 기울여서(Italic)             | 기울여서.                                      | 사용 기피할 것.                           |
+| `<em>`     | 기울여서+의미                | 중요하다는 Point를 줌                          |                                           |
+|            |                              |                                                |                                           |
+|            |                              |                                                |                                           |
+|            |                              |                                                |                                           |
+| 02         | Elements related to **form** |                                                |                                           |
+| `<form>`   |                              | 서버에서 처리될 데이터 제공하는 역할           | input과 보통 묶여 쓰인다.                 |
+|            | 2 elements are necessary     | action / method                                |                                           |
+| 필수Tag    | `<label>`                    | 서식 입력 요소의 캡션                          | <label>ID:                                |
+|            | `<input>`                    | 입력 데이터 필드                               |                                           |
+|            | `<name>`                     |                                                |                                           |
+|            | `<placeholder>`              | 인풋 입력시 지워지는 연한 글씨                 | `아이디를 입력하세요`                     |
+|            | `<required>`                 |                                                |                                           |
+|            | `<autofocus>`                | 자동으로 커서 주기.                            |                                           |
+
+**https://www.w3schools.com/tags/att_input_type.asp**
+
+<img src="02_html_css.assets/image-20210207222328246.png" alt="image-20210207222328246" style="zoom:80%;" />
+
+### Table Tag
+
+| 태그명      |이름| 역할 | 기타 |
+| ----------- | ---- | ---- | ----------- |
+| `<th>`     | Table head | Container 머리글 행 생성(Bold, justify-content:center) ||
+| `<tr>`     | Table row | 가로줄 생성(container) ||
+| `<td>`     | Table data | 셀 역할(Item) ||
+| `<thead>`   |      |      ||
+| `<tbody>`   |      |      ||
+| `<tfoot>`   |      |      ||
+| `<caption>` |      |      ||
+| `colspan` | Column span | 열 병합.(가로로 열끼리 병합) |`<td colspan="3">`|
+| `rowspan` | Row span | 행 병합(세로로 행끼리 병합) ||
+| `scope` |  | 행인지 열인지 지정해줌 |`td scope='"row"'`|
+| `colgroup` | Scope 속성 |  ||
+
+- jsfiddle.net 참고 예시
+
+![image-20210207221928046](02_html_css.assets/image-20210207221928046.png)
 
 ### 유용한 단축키(vscode 기준)
 
 | 단축키          | 설명                                  | 기타      |
 | --------------- | ------------------------------------- | --------- |
 | Tag명 > Tag명*n | Tag명 내에 Tag명을 n개 만큼 생성한다. | ul > li*3 |
-| `>`             | 자손 의미                             | div > div |
-|                 |                                       |           |
+| `>`             | 자식 의미                             | div > div |
+| ` `             | 자손 의미(증손주 등등 전부 포함)      | div div   |
 
 
 
@@ -224,40 +277,74 @@ https://developer.mozilla.org/ko/docs/Glossary/Semantics
 `#Declaration Block{#선언(Declaration) 속성(Property): 값(Value); font-size: 12px;}`
 
 ```css
-/* CSS */
+/* CSS 구문 예시*/
 p{background: yellowgreen; color: darkgreen;}
+h1 { #선언 = 속성 + 값(color: blue;) font-size: 15px;}
+div > p{background-color: black;}
+div p{background-color: green;}
 ```
 
 
 
-## 선언방식
+## 선언방식(정의방법)
 
-1. 각 Tag 내 Style 직접 사용 (= Inline Style)
+**인라인(Inline)**
 
-   ```html
-   <h1 style="color:blue; font=size: 100px;>제목</h1>
-              # h1 내에 직접적으로 Style을 선언해주었다.
-   ```
+각 Tag 내 Style 직접 사용 (= Inline Style)
 
-2. `<head>` Tag 내에 `<style>` 지정 ( = 내부참조 Internal Style Sheet)
+```html
+<h1 style="color:blue; font=size: 100px;>제목</h1>
+           # h1 내에 직접적으로 Style을 선언해주었다.
+```
 
-   ```css
-   <style>
-   #클래스(.)가 아닌 Tag명eg.<h1>에 직접적으로 Style을 지정하였다.
-   header{
-   color : blue;
-   }
-   </style>
-   ```
+![image-20210207223036571](02_html_css.assets/image-20210207223036571.png)
+
+**내부참조(embedding)**
+
+`<head>` Tag 내에 `<style>` 지정 ( = 내부참조 Internal Style Sheet)
+
+```css
+<style>
+#클래스(.)가 아닌 Tag명eg.<h1>에 직접적으로 Style을 지정하였다.
+header{
+color : blue;
+}
+</style>
+```
+
 ```
    1. 경로를 Tag명으로 직접 줄 때의 **주의사항**
    
    저렇게 css를 작성하면 모든 `<header>`가 동일한 모습이 되어버리는데, 사실 '헤더'라는건 역할이기 때문에, 다양한 위치에 들어갈 수 있고, 각 위치에서 스타일링을 다르게 해야하는 경우도 많습니다.
-
+그래서 보통 'CLASS'로 만들어서 그 클래스를 이용합니다.
 
 ```
 
+![image-20210207223239172](02_html_css.assets/image-20210207223239172.png)
 
+**외부참조(Link File)**
+
+분리된 `CSS File` 혹은 `<head>`에`Link`를 걸어 외부에서 참조한다.(BOOTSTRAP의 링크활용 등)
+
+- 공통된 Style의 양식을 각 File로 만들어 Load하는 방식
+
+![image-20210207223446137](02_html_css.assets/image-20210207223446137.png)
+
+## Global CSS Property Usage
+
+## 선택자(Selectors)
+
+- HTML 문서에서 특정한 요소를 선택하여 Styling 하기 위해서는 반드시 필요한 개념
+- 기본 선택자
+  - 전체 선택자, 요소 선택자
+  - Class 선택자, ID 선택자, 속성 선택자
+- 결합자(Combinarors)
+  - 자손ㆍ자식 결합자
+  - 일반 형제ㆍ인접 형제 결합자
+- 의사 클래스/요소
+  - 링크, 동적 의사 클래스
+  - 구조적 의사 클래스
+- 
 
 # BOOTSTRAP
 
@@ -269,3 +356,19 @@ p{background: yellowgreen; color: darkgreen;}
 - `flex-wrap`
 - `flex-flow`
 - `align-content`
+
+
+
+**em과 rem의 차이**
+
+- rem은 `html의 root` 기준으로 `16px`
+- em은 부모요소를 기준으로 한다.
+
+**Margin Spacing**
+
+![image-20210207214756150](02_html_css.assets/image-20210207214756150.png)
+
+- `.mx-auto`
+  - 수평 중앙 정렬. auto는 가능한 한 반대쪽으로 밀어버리는 역할을 하는데 양쪽에서 밀어줘서 가운데 정렬이 된다.
+
+![image-20210207215038658](02_html_css.assets/image-20210207215038658.png)
