@@ -1666,3 +1666,25 @@ print(add(3,4)) # 인수 3, 4
 
   
 
+### INPUT 예제
+
+![image-20210208170336330](01_python.assets/image-20210208170336330.png)
+
+![image-20210208170347632](01_python.assets/image-20210208170347632.png)
+
+split() 공백을 구분자 나누고, 인풋을 하나씩 받아와서, map으로 int변환.
+
+```python
+#가,나,다 ,단위로 나누고싶다면?
+a, b, c = list(map(int, input().split(",")))
+```
+
+공백없이 붙어온 것을 하나씩 처리하기
+
+```python
+#가나다라 -- 그냥 list에 넣기
+a = list(input())
+#하지만 숫자를 정수형으로 list에 넣고 싶다면? 157584
+a = list(map(int, input()))
+```
+
