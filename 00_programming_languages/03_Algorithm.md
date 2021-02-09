@@ -112,11 +112,37 @@ Answer : O(n)
                    a[j], a[j+1] = a[j+1], a[j]
    ```
 
+   ```python
+   arr = [55, 7, 78, 12, 42]  # 정렬 하고자 하는 배열
+   
+   
+   def BubbleSort(arr):  # 정렬할 List
+       for i in range(len(arr) - 1, 0, -1):  # 범위의 끝 위치
+           for j in range(0, i):
+               print("현재상태",arr)
+               if arr[j] > arr[j + 1]:
+                   arr[j], arr[j + 1] = arr[j + 1], arr[j]
+               print("스왑과정",arr)
+           print("-----------------------------------")
+   
+   BubbleSort(arr)
+   
+   print(arr)
+   ```
+
    
 
 2. 카운팅 정렬 (Counting Sort)
 
    > 항목들의 순서를 결정하기 위해 집합에 각 항목이 몇 개씩 있는지 세는 작업을 하여, 선형 시간에 정렬하는 효율적인 알고리즘
+
+   - Counting Sort의 원리
+
+   ```python
+   
+   ```
+
+   
 
    - **정수 or 정수로 표현할 수 있는 자료**에만 적용가능(각 항목 발생 회수를 Count하기 때문)
    - 충분한 공간을 할당하려면, 집합 내 가장 큰 정수(Integer)를 알아야한다.
@@ -149,10 +175,12 @@ Answer : O(n)
            C[A[i]] += 1
        for i in range(1, len(C)): #원소별 누적합
            C[i] += C[i-1]
-       for i in range(len(B)-1, -1, -1): # New Array stable Sorted
+       for i in range(len(B)-1, -1, -1): # New Array sorted stable
            B[C[A[i]]-1] = A[i]
            C[A[i]] -= 1
    ```
+
+   
 
    ![image-20210208150102009](03_algorithm.assets/image-20210208150102009.png)
 
@@ -179,9 +207,11 @@ Answer : O(n)
 
 > 서로 다른 것들 중 몇 개를 뽑아서 한 줄로 나열하는 것
 
+- 시간복잡도(Time Complexity) : n!
+
 - 서로 다른 n개중 r개를 택하는 순열 : nPr
   - 식 :  nPr = n\*(n-1)\*(n-2)\*...\*(n-r+1)
-- nPn = n! (Factorial)
+- nPn = n! (Factorial) (중복값도 다 다른 하나로 세기)
   - 식: nPr = n\*(n-1)\*(n-2)\*...\*2\*1
 
 ```python
