@@ -7,10 +7,19 @@
 - alt shift f 10 원하는거 선택해서 실행
 - ctrl shift f10 지금보고잇는거실행
 
-| 단축키   | 역할                   |
-| -------- | ---------------------- |
-| Ctrl + E | View Recent Files      |
-| `F12`    | 커서이동. 복귀는 `Esc` |
+| 단축키               | 역할                           |
+| -------------------- | ------------------------------ |
+| Ctrl + E             | View Recent Files              |
+| `F12`                | 커서이동. 복귀는 `Esc`         |
+| Ctrl + Alt + L       | 자동 들여쓰기                  |
+| Ctrl + D             | Line 복사                      |
+| Ctrl + Shift + Z     | Ctrl + Z를 취소                |
+| Alt + Shift + 방향키 | Alt + 방향키                   |
+| Shift + Enter        | 다음줄 (Ctrl + Enter)          |
+| Ctrl + Y             | 한줄 삭제                      |
+| Tab & Shift + Tab    | 들여쓰기, 다시 돌아가기        |
+| Ctrl + Shift + F10   | 실행                           |
+| F8 , Shift + F8      | 디버깅 진행, 디버깅 되돌아가기 |
 
 
 
