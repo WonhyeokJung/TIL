@@ -154,10 +154,32 @@ Answer : O(n)
    [0,4,1,3,1,2,4,1]
    # 각 숫자가 몇개씩 있는지 Count
    count = [0]*5 # 0~4까지 총 5개므로
-   return [1,3,1,1,2]
    
    [1,4,5,6,8] # 첫 항부터 각 누적합
    
+   # 과정
+   A = [0, 4, 1, 3, 1, 2, 4, 1]  # 정렬 대상 배열
+   B = [0]*len(A)  # sorted A
+   C = []  # Counting Array
+   
+   # 각 원소의 개수
+   k = 5
+   
+   C =[0]*k
+   
+   # C에 0~4별로 몇 개가 있는 지 넣고,
+   for i in range(len(A)):
+       C[A[i]] += 1
+   # C[0]은 그대로, C[1]은 C[0]+C[1] 이런식으로 누적합을 넣는다.
+   for i in range(1, len(C)):
+       C[i] += C[i-1]
+   
+   # A의 맨 뒷항부터 돌면서, A[i]의 Value값을 C에서 그 값에 맞는 Index와 대치시켜서(C[A의 Value]로 하여,) C에서 1을 빼준후, 그 Value를 다시 Index로 하여 B[그 Value]에 A[i]의 Value를 넣어준다.
+   for i in range(len(A)-1, -1, -1):
+       C[A[i]] -= 1
+       B[C[A[i]]] = A[i]
+   
+   print(B)
    
    ```
 
@@ -173,7 +195,7 @@ Answer : O(n)
        # B = [0]*len(A) 여기서 B를 정의하면 B를 return해야 한다.
        C =[0]*k
        
-       for i in range(0, len(B)): #Counting
+       for i in range(0, len(A)): #Counting
            C[A[i]] += 1
        for i in range(1, len(C)): #원소별 누적합
            C[i] += C[i-1]
@@ -181,6 +203,12 @@ Answer : O(n)
            B[C[A[i]]-1] = A[i]
            C[A[i]] -= 1
    ```
+
+   
+
+   ![image-20210216171032995](03_algorithm.assets/image-20210216171032995.png)
+
+   - 이런 식으로 정렬하다 보면 A에 있던 순서에 맞게 정렬이 가능하다.
 
    
 
@@ -621,6 +649,36 @@ for i in range(1<<n): # 1<<n : = 2**n.arr의 부분 집합의 개수
             print(arr[j], end = ", ")
     print()
 print()
+```
+
+```python
+# 각 부분집합의 합 중 합이 10이 되는 부분 집합의 출력
+
+arr = [1,2,3,4,5,6,7,8,9,10]
+n = len(arr)
+# 결과를 한번에 담을 List
+result = []
+for i in range(1<<n):  # 1을 n만큼 왼쪽으로. 즉, 전체 부분집합의 총 개수
+    #집합 리스트
+    ans = []
+    # 합이 10인가 확인하기 위한 임시 변수
+    sum_10 = 0
+    for j in range(n):
+        if i & (1 << j): # 컴퓨터는 2진수로 봄
+            sum_10 += arr[j]
+            # for j문이 돌면서 ans에 계속 값을 새로 만드는게 아닌, 값을 추가함. 그래서 여러 집합이 나올 수 있음.
+            ans += [arr[j]]
+            # 무엇이 나오는지 연습 검증
+            print(i, j, ans)
+            # 이거 해보면 공집합 []도 n만큼 출력되고 있음 i = 0 j = 0~9일때, i& 1<<j 는 i가 0이므로
+            # True가 나올 수가 없기 때문에 공집합만 n만큼 출력
+            print(ans)
+    # 전체 부분집합 출력(공집합 포함)
+    print(ans)
+    if sum_10 == 10:
+        result.append(ans)
+print(result)
+
 ```
 
 
