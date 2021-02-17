@@ -884,3 +884,292 @@ def select(list, k):
     return list[k-1]
 ```
 
+
+
+## 문자열(String)
+
+### 문자의 표현
+
+- ASCII (American Standard Code for Information Interchange)가 문자 인코딩의 표준
+- 7Bit 인코딩으로 128문자 표현 : 33개의 출력 불가능한 제어 문자 + 공백 비롯한 95개의 출력 가능한 문자
+
+> `ord()` : 해당 문자의 아스키코드값 출력 `chr()` : 해당 아스키코드값의 문자 출력
+
+- 확장아스키는 8bit(=1byte)를 사용하여 추가적인 문자를 표현할 수 있으나, **표준이 아니라 사용이 어려움**
+
+- 유니코드(UTF : Unicode Transformation Format)의 탄생 -> 존재하는 모든 문자를 다 넣기 위해 탄생
+  - UTF-8 : Web, Python 3.x~. 8bit~32bit(1~4byte)
+  - UTF-16 : Windows, Java. 16~32bit(2~4byte)
+  - UTF-32 : Unix. 32~32bit(4byte)
+
+
+
+**언어별 문자열 처리**
+
+
+
+Java는 길이가 컨트롤 되나, C언어에선 길이 끝을 표현해줘야함
+
+
+
+
+
+cpy copy cmp compare
+
+
+
+
+
+- Java(객체지향 언어)에서의 문자열 처리
+  - String으로 선언하고, String str = "abc" // String str = new String("abc")
+  - 문자열 처리에 필요한 연산을 연사자, 메소드 형태로 제공
+
+
+
+### Python
+
+- char Type 없음 (전부 String 타입) > Text Data의 취급방법이 통일되어 있음
+
+- '(홑따옴표)' "(쌍따옴표)" """ or '''(쌍따옴표 혹은 홑따옴표 3개)
+
+- \+ 연결(Concatenation) : 
+
+  - 문자열 + 문자열 : 이어 붙여주는 역할
+
+  - 반복
+    - 문자열 * 수 : 수만큼 문자열 반복
+
+**Python의 문자열 처리** 
+
+- Sequence 자료형
+- 인덱싱, 슬라이싱 등의 사용 가능
+- replace(), split(), isalpha(), find() ...
+
+```python
+# 예제
+line = "안녕하세요"
+line.replace("세","시") # 안녕하시요
+line.split("하") #['안녕', '세요']
+line.find("녕") # 1 (Index번호나옴. 없으면 -1)
+line.index("녕") # 1 (Index 번호. 없으면 Error)
+reversed(line) # 요세하녕안
+#비밀번호 영어 숫자를 조합해서 작성해야한다.
+password = 'abcde'
+
+flag_alpha = False
+flag_number = False
+
+for i in password:
+    if i.isalpha():
+        flag_alpha = True
+        
+    if i.isdigit():
+        flag_number = True
+if not flag_alpha:
+    print("비밀번호에 알파벳이 사용되지 않았음")
+elif not flag_number:
+    print("비밀번호에 숫자가 사용되지 않았음")
+else:
+    print("완벽한 비밀번호이다.")
+    
+```
+
+
+
+- 요소값 변경은 불가능(Immutable)
+
+
+
+### 세 언어의 String 처리의 차이점
+
+- C언어는 ASCII
+- Java는 유니코드(UTF16, 2byte)로 저장
+- Python은 유니코드(UTF8)로 저장
+
+
+
+
+
+### 문자열 뒤집기
+
+- 두 가지 방법이 있다.
+  1. 자기 문자열에서 뒤집는 방법
+  2. 새로운 빈 문자열을 만들어 소스의 뒤에서부터 읽어와 작성하는 방법
+     - List화 해서 바꾼 후 다시 Str화 한다.
+
+```python
+# 예시
+str = '안녕하세요'
+str[::-1]
+# 요세하녕안
+
+''.join(reversed(str)) 
+# 요세하녕안
+```
+
+
+
+### 문자열 비교
+
+- C : strcmp() 함수
+- Java : equals() 메서드. ==는 메모리 참조(주소값)가 같은 지 묻는 것이다.
+- Python : `==` 연산자와 `is` 연산자 ( ==는 값 비교, is는 주소값 비교)
+
+
+
+### 문자열 숫자를 정수로 변환하기
+
+- C : atoi() 함수 사용. 역함수로는 itoa()
+- Java : Parse 메서드. Integer.parseInt(Str) // 역함수는 toString()
+- Python :  숫자와 문자변환 함수 제공
+  - int("123"), float("3.14"), str(123), repr(123) 
+  - repr은 소숫점 등이 생략되지 않고 그대로 문자화되어 반환 // str은 보기 쉽게 출력
+  - char형의 경우, `ord()` 와 `chr()` 
+
+```python
+# 구현 예
+def atoi(num_str): # alphabet to integer
+    # 최종 값을 담을 변수
+    value = 0
+    for i in range(len(num_str)):
+        value *= 10  # value = value * 10
+        value += ord(num_str[i]) - 48  # ord('0')
+        # ord(num_Str[i]) - ord('0')
+    return value
+        
+num_str = "1234"
+
+num_int = atoi(num_str)
+print(num_int, type(num_int))
+```
+
+
+
+## 패턴 매칭
+
+- 고지식한 패턴 검색 알고리즘
+- 카프 -라빈 알고리즘
+- KMP 알고리즘
+- 보이어-무어 알고리즘
+
+
+
+### 고지식한 패턴 알고리즘(Brute Force)
+
+> O(mn)
+
+> Time Complexity : O(len(pattern)*len(text))
+
+**본문 문자열을 처음부터 끝까지 차례대로 순회하면서 패턴 내의 문자들을 일일이 비교**
+
+- Text 의 0번 index부터 전부 확인하면서, Pattern과 일치하는 경우를 찾는다.
+
+**찾는 패턴이 시작되는 Index를 구하는 함수**
+
+```python
+sample_text = "This is a book ~!" # 전체 Text
+sample_p = "is" # 찾을 Pattern
+t_len = len(sample_text) # 전체 텍스트의 길이
+p_len = len(sample_p) # 찾을 패턴의 길이
+
+# while문 구현
+def BruteForce(text, p):
+    i = 0 # text의 인덱스
+    j = 0 # p의 인덱스
+    while i < t_len and j < p_len:
+        if text[i] != p[j]:
+            i = i - j
+            j = -1
+        i = i + 1
+        j = j + 1
+    if j == p_len : return i - p_len # 검색 성공
+    else : return -1 # 검색실패
+```
+
+```python
+# For문 구현
+def BruteForce2(t,p):
+    N = len(t)
+    M = len(p)
+    
+    for i in range(N-M+1):
+        cnt = 0
+        for j in range(M):
+            if t[i+j] == p[j]:
+                cnt += 1
+            else:
+                break
+        if cnt == M:
+            return i
+    return -1
+
+print(BruteForce2(t, p))
+```
+
+### KMP Algorithm
+
+> O(n)
+
+> Time Complexity : O(M+N) # M은 결국 아무리 커져도 N보다는 작아 의미가 적다. N = len(text)
+
+**패턴을 전처리하여 배열 next[len(pattern)]를 구해서 잘못된 시작을 최소화**
+
+- 불일치가 발생한 텍스트 문자열의 앞 부분에 어떤 문자가 있는 지를 미리 알고 있으므로, 불일치한 발생한 앞 
+  부분에 대하여 다시 비교하지 않고 매칭을 수행
+- 비교하다가 실패하면, 돌아갈 곳을 미리 준비해두는 방식
+
+```python
+pattern : a b c d a b c e
+text : a b c d a b c d.... 
+```
+
+
+
+### 보이어-무어 알고리즘
+
+> O(n) ~ O(mn)
+
+> 최악의 경우 Time Complexity :  O(len(pattern)*len(text)) 하지만 보통은 O(len(text))보다 작다.
+
+- 오른쪽부터 왼쪽으로 비교
+- **대부분의 상용 소프트웨어에서 채택하고 있는 알고리즘**
+- Pattern의 오른쪽 끝에 있는 문자가 Text의 현재 Index문자와 불일치하고 이 문자가 Pattern 내에 존재하지 않는 경우, Pattern 길이만큼 우측이동한다.
+  - 일치하는 경우에는, 현재 Index문자와 Pattern의 그 글자를 일치시키고, 또 뒤에서부터 타 글자들이 일치하는 지 검증한다.
+
+
+
+### 문자열 암호화
+
+- Caesar cipher(시저 암호)
+  - 줄리어스 시저가 사용했다고 하는 암호
+  - 평문에서 사용되고 알파벳을 일정한 수만큼 **평행이동** 시킴으로써 암호화를 행한다.
+  - eg. e +3(key)시, 암호문에선 g로 표현된다.
+  - 전부(25회) 전사해보면 결국 찾을 수 밖에 없다.
+- 단일 치환 암호(에니그마 등)
+  - 각 알파벳별 대응하는 알파벳을 따로 만들어둔다.
+  - 복호화에 필요한 경우의 수 : 26!
+- Bit열의 암호화
+  - 배타적 논리합(exclusive-or = nor) 연산 사용
+  - 두 값이 같으면 0(거짓), 두 값이 다르면 1(참)
+  - 값 + 키 = 암호 > 암호+키 = 값이 나와서, 키가 중요하다.
+
+
+
+### Run-length encoding Algorithm
+
+**같은 값이 몇 번 반복되는가를 나타냄으로써 압축**
+
+```python
+A B B B B B B B B A
+A1B8A1
+
+# 하지만..
+A B A B A B A B
+A1B1A1B1...
+# 길이가 더 늘어나는 경우가 있다.
+```
+
+이를 막기 위해서...
+
+### 허프만 코딩 알고리즘
+
