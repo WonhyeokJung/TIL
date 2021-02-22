@@ -396,6 +396,7 @@ for i in arr:
 N, M = map(int, input().split())
                   # 쓰지 않을 변수라 _ 사용
 arr = [list(map(int, input().split())) for _ in range(N)]
+      [list(input()) for _ in range(N)]
                   # [[map(int, input().split()))] for _ in range(N)]로 할시
                   # 맵 주소값을 리스트에 담아두는 쓴 맛을 볼 수 있으므로 주의
 for i in arr:
@@ -551,6 +552,8 @@ for i in range(3):
         if i < j :
             arr[i][j], arr[j][i] = arr[j][i], arr[i][j]
 ```
+
+- 전치행렬을 이용하면, 열을 행으로 바꿔, 새로운 리스트로 카피하여 사용이 가능하다!
 
 
 
@@ -1003,8 +1006,26 @@ str = '안녕하세요'
 str[::-1]
 # 요세하녕안
 
-''.join(reversed(str)) 
+reversed(str)
 # 요세하녕안
+
+# 빈 문자열 만들기
+empty_str = ""
+for i in range(len(s)-1,-1,-1):
+    empty_str += s[i]
+# print(''.join(empty_str))
+print(empty_str)
+
+# Swap 방식 1
+s_list = list(s)
+
+for i in range(len(s)//2):
+    s_list[i] , s_list[len(s)-1-i] = s_list[len(s)-1-i], s_list[i]
+
+s = ""
+for i in s_list:
+    s += i
+print(s)
 ```
 
 
@@ -1106,6 +1127,21 @@ def BruteForce2(t,p):
 print(BruteForce2(t, p))
 ```
 
+```python
+# For문 구현 2
+
+def BruteForce3(t,p):
+    for i in range(len(t)-len(p)+1):
+        
+        for j in range(len(p)):
+            if p[j] != t[i+j]:
+                break
+        else: return 1
+    return 0
+```
+
+
+
 ### KMP Algorithm
 
 > O(n)
@@ -1172,4 +1208,317 @@ A1B1A1B1...
 이를 막기 위해서...
 
 ### 허프만 코딩 알고리즘
+
+## Stack
+
+> 물건을 쌓아올리듯 자료를 쌓아올린 형태의 자료구조
+
+- 스택 자료는 **선형 구조**를 갖는다.
+  - 선형구조 : 자료 간의 관계가 1대1
+  - 비선형구조 : 자료 간의 관계가 1대N(예 : 트리)
+- 스택에 자료를 삽입하거나 꺼내기가 가능
+- **LIFO**구조(Last in First out, 후입선출)
+
+### 스택을 프로그램에서 구현하기 위해서 필요한 자료구조와 연산
+
+**자료구조**
+
+- 자료를 선형으로 저장할 저장소 (저장소 자체를 스택이라 부르기도 함)
+- 배열, List
+- 스택에 마지막 삽입된 원소의 위치를 Top이라 부른다.
+
+**연산**
+
+- 삽입(Push): 저장소에 자료를 저장
+- 삭제(pop): 저장소에서 자료를 꺼냄. 역순으로 꺼내짐에 유의
+- isEmpty : 스택이 공백인지 아닌지를 확인하는 연산
+- peek : 스택의 top에 있는 item(원소)를 반환하는 연산(자료를 꺼내지는 않음!)
+
+
+
+### Stack의 Algorithm
+
+**스택의 Push Algorithm**
+
+- Append 메서드를 통해 리스트의 마지막에 데이터를 삽입
+
+```python
+# List 이용한 방식
+def push(item):
+    s.append(item)  # s = stack
+# List의 크기가 정해져있을때(배열을 이용했을 때는 top이라는 변수를 이용하여, top을 증가 시키고 넣는다.)
+def push2(item):
+    if top
+```
+
+**스택의 Pop Algorithm**
+
+```python
+def pop():
+    if len(s) == 0:  # 공백검사. 데이터가 없으면 못꺼내니까
+        # underflow
+        return
+    else:
+        return s.pop(-1)  # 마지막꺼 꺼내기
+```
+
+
+
+### 스택 구현 고려사항
+
+- 1차원 배열을 사용하여 구현할 경우(리스트 크기가 정해져 있으므로), 구현은 용이하지만 스택 크기를 변경하기가 어렵다는 단점
+- 스택의 동적 연결리스트를 이용하여 구현하는 방법이 있으나, 현재단계에서는 생략
+
+
+
+### 스택의 응용
+
+#### **괄호검사**
+
+- 종류 : 대괄호 [] / 중괄호 {} / 소괄호 ()
+- 조건
+  - 왼쪽 괄호, 오른쪽 괄호 개수가 같아야 한다.
+  - 왼쪽 괄호가 오른쪽 괄호가 먼저 나와야 한다.
+  - 괄호 사이에는 포함 관계만 존재한다.
+
+**스택을 이용한 괄호 검사**
+
+```python
+if ( ( i == 0) && (  j == 0) :
+   stack
+   (
+     ( (
+            (
+                  ((
+                          ( # 따라서 1번 위배
+```
+
+**괄호를 조사하는 Algorithm 개요**
+
+- 문자열에 있는 괄호를 차례대로 조사, 왼쪽 괄호를 만나면 스택에 삽입, 오른쪽 괄호를 만나면 스택에서 top괄호를 삭제
+- 이 때, Stack이 비어 있으면 조건 1 또는 조건 2에 위배되고, 괄호의 짝이 맞지 않으면 조건 3에 위배된다.
+- 마지막 괄호까지 조사하고도 스택에 괄호가 남아있으면 조건 1에 위배된다.
+
+
+
+#### **Function call**
+
+- 프로그램에서 함수 호출과 복귀에 따른 수행 순서를 관리
+  - 가장 마지막에 호출된 함수가 가장 먼저 실행을 완료하고 복귀하는 후입선출 구조
+  - 함수 호출 발생시, 함수 수행에 필요한 지역변수, 매개변수 및 수행 후 복귀할 주소 드으이 정보를 스택 프레임(Stack Frame)에 저장하여 시스템 스택에 삽입
+  - 함수의 실행이 끝나면 시스템 스택의 top원소(Stack frame)을 삭제(pop)하면서 프레임에 저장되어 있던 복귀 주소를 확인하고 복귀
+  - 함수 호출과 복귀에 따라 이 과정을 반복하여 전체 프로그램 수행이 종료시, 시스템 스택은 공백스택이 됨.
+
+#### 재귀호출
+
+- 자기 자신을 호출하여 순환 수행되느 것
+- 재귀호출 사용시, 일반적인 호출방식보다 프로그램 크기를 줄이고, 간단하게 작성이 가능하다.
+
+```python
+# Factorial
+n! = n * (n-1)!
+	(n-1)! = (n-1) * (n-2)!
+    
+def factorial(n):
+    if n == 1:
+        return 1
+    return n*(factorial(n-1))
+```
+
+```python
+# 피보나치 수열 0 1 1 2 3 5 8 .... 엄청나게 비효율적 
+# 중복호출 문제
+def fibo(n):
+    if n < 2:
+        return n
+    else:
+        return fibo(n-1) + fibo(n-2)
+```
+
+
+
+#### Memoization
+
+> 이전에 계산한 값을 메모리에 저장해서 매번 다시 계산하지 않도록 하여 실행속도를 빠르게 하는 기술
+
+- 동적 계획법(DP)의 핵심이 되는 기술
+- To put in memory 라는 의미, memorandum에서 파생(라틴어, '기억되어야 할 것')
+
+```python
+# 피보나치 수열
+# memo를 위한 배열 할당 후, 모두 0으로 초기화
+# memo[0]을 0으로 memo[1]은 1로 초기화
+
+def fibo(n):
+    global memo
+    if n >=2 and len(memo) <= n:
+        memo.append(fibo(n-1) + fibo(n-2))
+    return memo[n]
+
+memo = [0, 1]
+##########################
+# 임의로 memo사이즈 주고 하기
+memo2 =[-1]*21
+memo2[0] = 0
+memo2[1] = 1
+
+def fibo2(n):
+    if memo2[n] == -1:
+        memo2[n] = fibo2(n-1) +fibo2(n-2)
+        
+    return memo2[n]
+```
+
+
+
+### DP(Dynamic Programming)
+
+> 그리디 알고리즘과 같이 최적화 문제를 해결하는 Algorithm
+
+- 입력 크기가 작은 부분 문제들을 먼저 해결후, 그 해들을 이요하여 보다 큰 크기의 부분 문제들을 해결하여, 최종적으로 원래 주어진 입력의 문제를 해결하는 Algorithm.
+
+- 피보나치 수 DP 적용
+  - 피보나치 수는 부분 문제의 답으로부터 본 문제의 답을 얻을 수 있으므로 최적 부분 구조로 이루어져 있다.
+  - Fibonacci(n) 함수는 Fibonnacci(n-1) + Fibonacci(n-2)의 합
+  - .... Fibonacci(n)은  Fibonnacci(n-1) + Fibonacci(n-2) + ...+ Fibonacci(0)의 부분집합으로 나뉨
+
+```python
+def fibo2(n):
+    f = [0, 1]
+    for i in range(2, n + 1):
+        f.append(f[i-1] + f[i-2])
+    return f[n]
+```
+
+#### DP의 구현방식
+
+- recursive(재귀) 방식 : fib1()
+- iterative(반복) 방식 : fib2()
+- 재귀적 구조보단 반복적 구조로 DP를 구현한 것이 성능 면에서 효율적
+- 재귀적 구조는 내부에 시스템 호출 스택을 사용하는 Overhead가 발생하기 때문
+
+
+
+### DPS(깊이우선탐색)
+
+- 비선형구조인 그래프 구조는 그래프로 표현된 모든 자료를 빠짐없이 검색하는 것이 중요함.
+- 두 가지 방법
+  - 깊이 우선 탐색(Depth First Search, DFS)
+  - 너비 우선 탐색(Breadth First Search, BFS)
+- 시작 정점의 한 방향으로 갈 수 있는 경로가 있는 곳까지 깊이 탐색해 가다가 더 이상 갈 곳이 없으면, 가장 마지막에 만났던 갈림길 간선이 있는 정점으로 돌아가서 다른 방향의 정점으로 탐색을 계속 반복하여 결국 모든 정점을 순회하는 방법
+- 가장 마지막에 만났던 갈림길의 정점으로 되돌아가서 다시 깊이우선탐색을 반복해야 하므로 후입선출 구조의 스택 사용
+
+
+
+#### 구현 방법
+
+1. 시작 정점 v를 결정하여 방문
+2. 정점 v에 인접한 정점 중에서
+   1. 방문하지 않은 정점 w가 있으면, 정점 v를 Stack에 Push, 정점 w 방문. 그리고 w를 v로 하여 다시 반복
+   2. 방문하지 않은 정점이 없으면, 탐색의 방향을 바꾸기 위해서 스택을 pop 후, 받은 가장 마지막 방문 정점을 v로 하여 다시 2.를 반복
+
+
+
+```python
+visited[], stack[] 초기화
+DFS(v):
+    v 방문;
+    visited[v] # true;
+    do{
+        if: # v의 인접 정점 중 방문안한 w찾기
+        push(v)
+        while(w){
+            w 방문;
+            visited[w] # true
+            push(w)
+            v # w로 바뀜
+            v의 인접 정점 중 방문 안한 w 찾기
+        }
+        v #pop(stack)
+    }
+```
+
+```python
+A~G까지 방문한다면,
+visited = ["F"]*7
+# 방문한곳은 T
+visited[0] = "T"
+stack.push("A")
+```
+
+**DFS 알고리즘 - 재귀(recursive)**
+
+```python
+# DFS_Recursive(G, V): # v 현재 정점 G 그래프
+visited[v] # True // v 방문 설정
+for each all w in adjacency(G, v) # w는 방문 가능한 곳 체크
+if visited[w] != TRUE
+DFS_Recursive(G, w)
+```
+
+```python
+# dfs 함수 정점과 간선 2차원리스트 graph, 현재 위치 n, 방문한 곳 TF배열 visited
+def dfs(graph, n, visited):
+    visited[n] = True
+    print(n, end=" ")
+
+    # graph[n]의 요소를 돌며
+    for i in graph[n]:
+        # 방문한 곳이 아니라면
+        if not visited[i]:
+            # 함수를 실행, 이 함수는 종료되지 않고 기다리고 있다가 다른 함수가 종료되면 또 실행된다.
+            # Return문은 기존 함수가 정지되므로, 돌아갈 곳이 없어지면 진행이 불가능하다.
+            dfs(graph, i, visited)
+
+# 정점수, 간선수
+N, M = map(int, input().split())
+arr = [[] for _ in range(N+1)]
+
+for i in range(M):
+    j, k = map(int, input().split())
+    arr[j].append(k)
+    arr[k].append(j)
+
+visited = [False]*(N+1)
+
+dfs(arr, 1, visited)
+
+```
+
+
+
+**DFS Algorithm - 반복(Iterative)**
+
+```python
+STACK s # v 현 위치 # s 스택 # w 방문 가능한 위치
+visited[]
+DFS(v):
+    push(s, v)  # 스택에 v넣어라
+    WHILE NOT isEmpty(s)
+    v # pop(s)
+    IF NOT visited[v]
+    	visit(v) # 방문하지 않았으면 F -> T로
+        For each w in adjacency(v) # 인접
+        	IF NOT visited[w]
+            	push(s, w)
+    
+```
+
+#### Graph Input받기
+
+1. 인접행렬방식
+   - 주어진 정점의 좌표를 다 1로, 그 외에는 전부 0이다. eg. 1,2가 주어지면 1행2열 2행 1열칸 두군데 다 1로
+2. 인접List방식
+   - 2차원 배열로 주어짐. 각 2차원배열에 자기 index에서 갈 수 있는 노드 번호를 저장
+
+```python
+1 -> 2,3,4 
+2 -> 1,3 
+3 -> 1,2,4 
+4 -> 1, 3
+
+arr[1][0]=2 arr[1][1] = 3 arr[1][2] = 4
+```
+
+
 
