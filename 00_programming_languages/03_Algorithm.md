@@ -92,168 +92,203 @@ Answer : O(n)
 
 **대표적인 정렬 방식**
 
-1. 버블 정렬 (Bubble Sort)
+#### 버블 정렬 (Bubble Sort)
 
-   > 인접한 두개의 원소를 비교하며 자리를 계속 교환하는 방식
-   >
-   > 한 단계가 끝나면 가장 큰 원소가 마지막 자리로 정렬된다.
-   >
-   > 거품이 올라오는 것 같아 버블 정렬이라 부른다.
+> 인접한 두개의 원소를 비교하며 자리를 계속 교환하는 방식
+>
+> 한 단계가 끝나면 가장 큰 원소가 마지막 자리로 정렬된다.
+>
+> 거품이 올라오는 것 같아 버블 정렬이라 부른다.
 
-    - Time complexity : O(n^2)
+ - Time complexity : O(n^2)
 
-   ```python
-   # List 내의 값을 오름차순으로 정렬하는 Bubble Sort 예제
-   def BubbleSort(a): # List a eg.[1,3,5,2,4]
-       for i in range(len(a)-1, 0, -1): # 범위의 끝 위치 for i in range(4,0,-1) 4,3,2,1
-           # range는 마지막 숫자 -1이 아닌, 마지막 숫자를 포함하지 않는 것.
-           for j in range(0,i):
-               if a[j] > a[j+1]:
-                   a[j], a[j+1] = a[j+1], a[j]
-   ```
+```python
+# List 내의 값을 오름차순으로 정렬하는 Bubble Sort 예제
+def BubbleSort(a): # List a eg.[1,3,5,2,4]
+    for i in range(len(a)-1, 0, -1): # 범위의 끝 위치 for i in range(4,0,-1) 4,3,2,1
+        # range는 마지막 숫자 -1이 아닌, 마지막 숫자를 포함하지 않는 것.
+        for j in range(0,i):
+            if a[j] > a[j+1]:
+                a[j], a[j+1] = a[j+1], a[j]
+```
 
-   ```python
-   arr = [55, 7, 78, 12, 42]  # 정렬 하고자 하는 배열
-   
-   
-   def BubbleSort(arr):  # 정렬할 List
-       for i in range(len(arr) - 1, 0, -1):  # 범위의 끝 위치
-           for j in range(0, i):
-               print("현재상태",arr)
-               if arr[j] > arr[j + 1]:
-                   arr[j], arr[j + 1] = arr[j + 1], arr[j]
-               print("스왑과정",arr)
-           print("-----------------------------------")
-   
-   BubbleSort(arr)
-   
-   print(arr)
-   ```
+```python
+arr = [55, 7, 78, 12, 42]  # 정렬 하고자 하는 배열
 
-   
 
-2. 카운팅 정렬 (Counting Sort)
+def BubbleSort(arr):  # 정렬할 List
+    for i in range(len(arr) - 1, 0, -1):  # 범위의 끝 위치
+        for j in range(0, i):
+            print("현재상태",arr)
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+            print("스왑과정",arr)
+        print("-----------------------------------")
 
-   > 항목들의 순서를 결정하기 위해 집합에 각 항목이 몇 개씩 있는지 세는 작업을 하여, 선형 시간에 정렬하는 효율적인 알고리즘
+BubbleSort(arr)
 
-   - Counting Sort의 원리
+print(arr)
+```
 
-   ```python
-   
-   ```
 
-   
 
-   - **정수 or 정수로 표현할 수 있는 자료**에만 적용가능(각 항목 발생 회수를 Count하기 때문)
-   - 충분한 공간을 할당하려면, 집합 내 가장 큰 정수(Integer)를 알아야한다.
-   - [0,1,1억]이런 경우처럼 최대 정수가 너무 큰 경우는 사용하지 않는 편이 좋다.
-   - Time Complexity : O(n+k) / n =len(list) k = 정수의 최대값 max(integer)
+#### 카운팅 정렬 (Counting Sort)
 
-   ```python
-   # 원리
-   [0,4,1,3,1,2,4,1]
-   # 각 숫자가 몇개씩 있는지 Count
-   count = [0]*5 # 0~4까지 총 5개므로
-   
-   [1,4,5,6,8] # 첫 항부터 각 누적합
-   
-   # 과정
-   A = [0, 4, 1, 3, 1, 2, 4, 1]  # 정렬 대상 배열
-   B = [0]*len(A)  # sorted A
-   C = []  # Counting Array
-   
-   # 각 원소의 개수
-   k = 5
-   
-   C =[0]*k
-   
-   # C에 0~4별로 몇 개가 있는 지 넣고,
-   for i in range(len(A)):
-       C[A[i]] += 1
-   # C[0]은 그대로, C[1]은 C[0]+C[1] 이런식으로 누적합을 넣는다.
-   for i in range(1, len(C)):
-       C[i] += C[i-1]
-   
-   # A의 맨 뒷항부터 돌면서, A[i]의 Value값을 C에서 그 값에 맞는 Index와 대치시켜서(C[A의 Value]로 하여,) C에서 1을 빼준후, 그 Value를 다시 Index로 하여 B[그 Value]에 A[i]의 Value를 넣어준다.
-   for i in range(len(A)-1, -1, -1):
-       C[A[i]] -= 1
-       B[C[A[i]]] = A[i]
-   
-   print(B)
-   
-   ```
+> 항목들의 순서를 결정하기 위해 집합에 각 항목이 몇 개씩 있는지 세는 작업을 하여, 선형 시간에 정렬하는 효율적인 알고리즘
 
-   - 뒤에서부터 카운팅 하는 이유는 **안정정렬(Stable Sort)**을 위함. 
-   - eg) 같은 1도 list 내 순서가 있었을텐데 그 순서를 유지해주기 위함이다.
+- Counting Sort의 원리
 
-   ```python
-   def Counting_Sort(A, B, k):
-       # A[] --- 입력 배열(1 to k) = Data
-       # B[] --- 정렬된 배열 = result
-       # C[] --- Counting Array
-       
-       # B = [0]*len(A) 여기서 B를 정의하면 B를 return해야 한다.
-       C =[0]*k
-       
-       for i in range(0, len(A)): #Counting
-           C[A[i]] += 1
-       for i in range(1, len(C)): #원소별 누적합
-           C[i] += C[i-1]
-       for i in range(len(B)-1, -1, -1): # New Array sorted stable
-           B[C[A[i]]-1] = A[i]
-           C[A[i]] -= 1
-   ```
+```python
 
-   
+```
 
-   ![image-20210216171032995](03_algorithm.assets/image-20210216171032995.png)
 
-   - 이런 식으로 정렬하다 보면 A에 있던 순서에 맞게 정렬이 가능하다.
 
-   
+- **정수 or 정수로 표현할 수 있는 자료**에만 적용가능(각 항목 발생 회수를 Count하기 때문)
+- 충분한 공간을 할당하려면, 집합 내 가장 큰 정수(Integer)를 알아야한다.
+- [0,1,1억]이런 경우처럼 최대 정수가 너무 큰 경우는 사용하지 않는 편이 좋다.
+- Time Complexity : O(n+k) / n =len(list) k = 정수의 최대값 max(integer)
 
-   ![image-20210208150102009](03_algorithm.assets/image-20210208150102009.png)
+```python
+# 원리
+[0,4,1,3,1,2,4,1]
+# 각 숫자가 몇개씩 있는지 Count
+count = [0]*5 # 0~4까지 총 5개므로
 
-   
+[1,4,5,6,8] # 첫 항부터 각 누적합
 
-3. 선택 정렬 (Selection Sort)
+# 과정
+A = [0, 4, 1, 3, 1, 2, 4, 1]  # 정렬 대상 배열
+B = [0]*len(A)  # sorted A
+C = []  # Counting Array
 
-   > 주어진 자료들 중 가장 작은 값의 원소부터 차례대로 선택하여 위치를 교환하는 방식
-   >
-   > **Selection Algorithm**을 전체 자료에 적용한 것.
+# 각 원소의 개수
+k = 5
 
-   - 정렬 과정
-     1. 주어진 List 중 최소값을 찾는다.
-     2. 그 값을 List의 맨 앞에 위치한 값과 교환한다.
-     3. 맨 처음 위치를 제외한 나머지 List를 대상으로 위의 과정을 반복한다.
+C =[0]*k
 
-   ```python
-   arr = [64, 25, 10, 22, 11] # 0 < arr[i] <= 100
-   min = 100
-   minIndex = 0 # 이게 아래로 들어가야 맞음. minIndex = i로. 안그러면 
-   			 # 기존 minIndex값이 유지될 가능성이 존재함
-   for i in range(len(arr)-1):
-       for j in range(len(arr)):
-       	if arr[j] < min :
-           	min = arr[j]
-               minIndex = j
-   	arr[i], arr[minIndex] = arr[minIndex], arr[i]
-   ```
+# C에 0~4별로 몇 개가 있는 지 넣고,
+for i in range(len(A)):
+    C[A[i]] += 1
+# C[0]은 그대로, C[1]은 C[0]+C[1] 이런식으로 누적합을 넣는다.
+for i in range(1, len(C)):
+    C[i] += C[i-1]
 
-   ```python
-   # 구현 예
-   def selectionSort(arr):
-       for i in range(0, len(arr)-1):
-           min = i
-           for j in range(i+1, len(arr)):
-               if arr[min] > arr[j]:
-                   min = j
-           arr[i], arr[min] = arr[min], arr[i]
-   ```
+# A의 맨 뒷항부터 돌면서, A[i]의 Value값을 C에서 그 값에 맞는 Index와 대치시켜서(C[A의 Value]로 하여,) C에서 1을 빼준후, 그 Value를 다시 Index로 하여 B[그 Value]에 A[i]의 Value를 넣어준다.
+for i in range(len(A)-1, -1, -1):
+    C[A[i]] -= 1
+    B[C[A[i]]] = A[i]
 
-   
+print(B)
 
-4. 퀵 정렬 (Quick Sort)
+```
+
+- 뒤에서부터 카운팅 하는 이유는 **안정정렬(Stable Sort)**을 위함. 
+- eg) 같은 1도 list 내 순서가 있었을텐데 그 순서를 유지해주기 위함이다.
+
+```python
+def Counting_Sort(A, B, k):
+    # A[] --- 입력 배열(1 to k) = Data
+    # B[] --- 정렬된 배열 = result
+    # C[] --- Counting Array
+    
+    # B = [0]*len(A) 여기서 B를 정의하면 B를 return해야 한다.
+    C =[0]*k
+    
+    for i in range(0, len(A)): #Counting
+        C[A[i]] += 1
+    for i in range(1, len(C)): #원소별 누적합
+        C[i] += C[i-1]
+    for i in range(len(B)-1, -1, -1): # New Array sorted stable
+        B[C[A[i]]-1] = A[i]
+        C[A[i]] -= 1
+```
+
+
+
+![image-20210216171032995](03_algorithm.assets/image-20210216171032995.png)
+
+- 이런 식으로 정렬하다 보면 A에 있던 순서에 맞게 정렬이 가능하다.
+
+
+
+![image-20210208150102009](03_algorithm.assets/image-20210208150102009.png)
+
+
+
+#### 선택 정렬 (Selection Sort)
+
+> 주어진 자료들 중 가장 작은 값의 원소부터 차례대로 선택하여 위치를 교환하는 방식
+>
+> **Selection Algorithm**을 전체 자료에 적용한 것.
+
+- 정렬 과정
+  1. 주어진 List 중 최소값을 찾는다.
+  2. 그 값을 List의 맨 앞에 위치한 값과 교환한다.
+  3. 맨 처음 위치를 제외한 나머지 List를 대상으로 위의 과정을 반복한다.
+
+```python
+arr = [64, 25, 10, 22, 11] # 0 < arr[i] <= 100
+min = 100
+minIndex = 0 # 이게 아래로 들어가야 맞음. minIndex = i로. 안그러면 
+			 # 기존 minIndex값이 유지될 가능성이 존재함
+for i in range(len(arr)-1):
+    for j in range(len(arr)):
+    	if arr[j] < min :
+        	min = arr[j]
+            minIndex = j
+	arr[i], arr[minIndex] = arr[minIndex], arr[i]
+```
+
+```python
+# 구현 예
+def selectionSort(arr):
+    for i in range(0, len(arr)-1):
+        min = i
+        for j in range(i+1, len(arr)):
+            if arr[min] > arr[j]:
+                min = j
+        arr[i], arr[min] = arr[min], arr[i]
+```
+
+
+
+#### 퀵정렬(Quick Sort)
+
+> 평균 시간복잡도 : O(Nlogn) 퀵정렬 최악의 경우 O(n**2)
+
+- 주어진 배열을 두 개로 분할하고, 각각을 정렬
+  - 합병 정렬과 동일한가?
+    - 합병정렬은 그냥 두 부분으로 나눔, but 퀵정렬은 분할 시 기준 아이템(pivot item) 중심으로, 이보다 작은 것은 왼편, 큰 것은 오른편에 위치 시킴
+    - 각 부분 정렬이 끝난 후, 합병정렬은 "합병"이란 후처리 작업이 필요하나, 퀵정렬은 필요 없음
+
+```python
+def quickSort(a, begin, end) :
+    if begin < end :
+        pivot = partition(a, begin, end)
+        quickSort(a, begin, pivot-1)
+        quickSort(a, pivot+1, end)
+```
+
+```python
+# 퀵 정렬 알고리즘
+def partition (a, begin, end) :
+    pivot = (begin + end) //2
+    L = begin
+    R = end
+    while L < R :
+        while(a[L] < a[pivot] and L<R) : L +=1
+        while(a[R]>=a[pivot] and L<R) : R-= 1
+        if L < R :
+            if L == pivot : pivot = R
+                a[L], a[R] = a[R], a[L]
+    a[pivot], a[R] = a[R], a[pivot]
+    return R
+```
+
+```python
+# 예제 : {69, 10, 30, 2, 16, 8, 31, 22}
+```
 
 5. 삽입 정렬 (Insertion Sort)
 
@@ -1269,6 +1304,150 @@ def pop():
 - 1차원 배열을 사용하여 구현할 경우(리스트 크기가 정해져 있으므로), 구현은 용이하지만 스택 크기를 변경하기가 어렵다는 단점
 - 스택의 동적 연결리스트를 이용하여 구현하는 방법이 있으나, 현재단계에서는 생략
 
+### 스택 구현 예제
+
+```python
+class Stack:
+    # 리스트를 이용하여 스택 생성
+    def __init__(self):
+        self.top = []
+
+    # 스택의 크기를 출력
+    def __len__(self):
+        return len(self.top)
+
+    # 스택 내부 자료를 string으로 변환하여 반환
+    def __str__(self):
+        return str(self.top[::1])
+
+    # 스택 초기화
+    def clear(self):
+        self.top = []
+
+    # PUSH
+    def push(self, item):
+        self.top.append(item)
+
+    # POP
+    def pop(self):
+        # if Stack is not empty
+        if not self.isEmpty():
+            # pop and return
+            return self.top.pop(-1)
+        else:
+            print("Stack underflow")
+            exit()
+
+    # 자료가 포함되어 있는지 여부 반환
+    def isContain(self, item):
+        return item in self.top
+
+    # 스택에서 top의 값을 읽어온다
+    def peek(self):
+        if not self.isEmpty():
+            return self.top[-1]
+        else:
+            print("underflow")
+            exit()
+
+    # 스택이 비어있는지 확인
+    def isEmpty(self):
+        return len(self.top) == 0
+
+    # 스택 크기 반환
+    def size(self):
+        return len(self.top)
+
+    # iterator를 이용하여 스택 출력
+    def __iter__(self):
+        return _StackIterator(self.top)
+
+
+# Iterator
+class _StackIterator:
+    def __init__(self, theList):
+        self._items = theList
+        self._curItem = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self._curItem < len(self._items):
+            item = self._items[self._curItem]
+            self._curItem += 1
+            return item
+        else:
+            raise StopIteration
+
+a = Stack()
+print(a.__len__())
+```
+
+```python
+# Top을 이용한 스택예제
+class Stack:
+    def __init__(self):
+        self.stack = []
+        self.top = -1
+
+    def push(self, n):
+        self.top += 1
+        return self.stack.append(n)
+
+    def pop(self):
+        if self.top > -1:
+            self.top -= 1
+            return self.stack.pop()
+        else:
+            return "underflow"
+
+    def peek(self):
+        if self.top > -1:
+            return self.stack[len(self.stack)-1]
+        else:
+            return -1
+
+    def top(self):
+        return self.top()
+```
+
+```python
+# 최고 크기를 따로 주는 Stack 예제
+class Stack:
+    def __init__(self, num):
+        self.arr = []
+        self.max_stack_size = num
+
+    def top(self):
+        if self.arr:
+            return len(self.arr)-1
+
+    def size(self, n):
+        self.max_stack_size = n
+
+    def isEmpty(self):
+        if self.arr:
+            return False
+        else:
+            return True
+
+    def pop(self):
+        if self.arr:
+            return self.arr.pop(-1)
+        else:
+            print("underflow")
+
+    def peek(self):
+        return self.arr[len(self.arr)-1]
+
+    def push(self, items):
+        if self.max_stack_size <= len(self.arr):
+            return "Stack is full"
+        else:
+            return self.arr.append(items)
+```
+
 
 
 ### 스택의 응용
@@ -1298,6 +1477,10 @@ if ( ( i == 0) && (  j == 0) :
 - 문자열에 있는 괄호를 차례대로 조사, 왼쪽 괄호를 만나면 스택에 삽입, 오른쪽 괄호를 만나면 스택에서 top괄호를 삭제
 - 이 때, Stack이 비어 있으면 조건 1 또는 조건 2에 위배되고, **괄호의 짝이 맞지 않으면** 조건 3에 위배된다.
 - 마지막 괄호까지 조사하고도 스택에 괄호가 남아있으면 조건 1에 위배된다.
+
+```python
+# 괄호를 조사하는 Algorithm 예제
+```
 
 
 
@@ -1491,7 +1674,7 @@ dfs(arr, 1, visited)
 
 
 
-**DFS Algorithm - 반복(Iterative)**
+**DFS Algorithm - 반복(Iterative). Stack활용**
 
 ```python
 STACK s # v 현 위치 # s 스택 # w 방문 가능한 위치
@@ -1551,4 +1734,597 @@ DFS(v):
 arr[1][0]=2 arr[1][1] = 3 arr[1][2] = 4
 ```
 
+
+
+
+
+## 계산기
+
+- 문자열로 된 계산식이 주어질 때, 스택을 이용하여 이 계산식의 값을 계산 가능
+
+1. 중위 표기법의 수식을 후위 표기법으로 변경
+2. 후위 표기법의 수식을 스택을 이용하여 계산
+
+```python
+# 중위표기법(infix notation)
+# 연산자를 피연산자의 가운데 표기하는 방법
+A+B
+# 후위표기법(postfix notation)
+# 연산자를 피연산자 뒤에 표기하는 방법
+AB+
+```
+
+
+
+### 중위표기식의 후위표기식 변환 방법
+
+**Step 1**
+
+1. 각 연산자의 우선순위에 따라, 괄호를 사용하여 다시 표현
+2. 각 연산자를 그에 대응하는 오른쪽 괄호의 뒤로 이동
+3. 괄호 제거
+
+```python
+예) A*B-C/D
+1단계 : ( (A*B) - (C/D) )
+2단계 : ( (A B)* (C D)/ )-
+3단계 : AB*CD/-
+```
+
+
+
+**Stack을 이용한, 중위 표기법에서 후위 표기법으로의 변환 알고리즘**
+
+1. 입력 받은 중위 표기식에서 토큰을 읽는다.
+2. 토큰이 피연산자이면 토큰을 출력한다.
+3. 토큰이 연산자(괄호포함)일 때, 이 토큰이 스택의 Top에 저장되어 있는 연산자보다 우선순위가 높으면 스택에 push, 그렇지 않다면 스택 top의 연산자의 우선순위가 토큰의 우선순위보다 작을 때까지 스택에서 pop 후(우선순위가 같아도 pop)(pop한 것은 출력), 토큰의 연산자를 push한다. 만약 top에 연산자가 없으면 push한다.
+4. 토큰이 오른쪽 괄호 ")"이면 스택 top에 왼쪽 괄호 "("가 올 때까지 스택에 pop 연산을 수행하고 pop한 연산자를 출력한다. 왼쪽 괄호를 만나면 pop만 하고 출력하지는 않는다.
+5. 중위표기식에 더 읽을 것이 없다면 중지하고, 더 읽을 것이 있따면 1부터 다시 반복
+6. 스택에 남아있는 연산자를 모두 pop하여 출력한다.
+
+**예제**
+
+- icp(in-coming priority) : 바깥에서의 우선순위(외부에서 처음 진입시)
+- isp(in-stack priority): 스택 내 우선순위(외부에서 진입하는 애와 비교하는 Top의 위치일때)
+- if (icp > isp) push() else pop()
+
+**스택 밖의 왼쪽 괄호는 우선 순위가 가장 높으며, 스택 안의 왼쪽 괄호는 우선 순위가 가장 낮다.**
+
+| 토큰  | isp(스택 내에서의 우선순위)        | icp(인커밍 진입시 우선순위)            |
+| ----- | ---------------------------------- | -------------------------------------- |
+|       | icp보다 낮으면 나가지 않아도 된다. | isp보다 우선순위 높으면 그냥 들어간다. |
+|       | 동순위의 경우 빼고 들어가야한다.   |                                        |
+| )     | -                                  | -                                      |
+| * , / | 1                                  | 1                                      |
+| +, -  | 2                                  | 2                                      |
+| (     | 3                                  | 0(프리패스. 무조건 일단 들어감)        |
+
+```python
+# 구현 예제. # ()가 없어도 제대로 작동한다.
+class Stack:
+    def __init__(self):
+        self.stack = []
+        self.top = -1
+
+    def push(self, n):
+        self.top += 1
+        return self.stack.append(n)
+
+    def pop(self):
+        if self.top > -1:
+            self.top -= 1
+            return self.stack.pop()
+        else:
+            return "underflow"
+
+    def peek(self):
+        if self.top > -1:
+            return self.stack[len(self.stack)-1]
+        else:
+            return -1
+
+    def top(self):
+        return self.top()
+
+
+T = 10
+for tc in range(1, T+1):
+    N = int(input())
+    m = list(input())
+    # 연산자 담을 스택
+    s = Stack()
+    # 결과담을 것
+    result = []
+    token = ["(", "*", "/", "+", "-", ")"]
+    
+    # 밖에서 처음 들어갈 때, 우선순위 0: ( 1: *, /  2: +, - # 사칙연산은 동순위 만나면 그 친구를 뺴주고 본인이 들어가야함. 따라서 왼 괄호는 무조건 들어간다.
+    # 안에서 나와야 하는 우선순위 1: *, / 2: +,- 3: ( // 동순위 만나면 괄호는 그대로, 사칙연산은 나와야만 한다.
+    # 안에서 (는 )만이 빼줄 수 있다.
+
+    for i in range(len(m)):
+        # 숫자면 일단 result에 그냥 넣기
+        if not m[i] in token:
+            result.append(m[i])
+        # 아니라면
+        else:
+            if m[i] == "(":  # 왼괄호는 그냥 들어감. 들어갈땐 1순위
+                s.push(m[i])
+            elif m[i] == "*" or m[i] == "/":
+                # 스택 길이만큼 찾아보면서
+                for j in range(len(s.stack)):
+                    # 내가 처음이거나, ( + - 라면 그냥 들어간다. for문 종료 위한 break
+                    if s.top == -1 or s.peek() == token[0] or s.peek() == token[3] or s.peek() == token[4]:
+                        # for문을 종료하자
+                        break
+                    else:  # * / 일 경우는 s.pop()을 result에 넣고, 계속 순환.
+                        result.append(s.pop())
+                # 현재 것 넣어주기
+                s.push(m[i])
+            elif m[i] == "+" or m[i] == "-":
+                for k in range(len(s.stack)):
+                    # 내가 처음이거나, "("가 peek라면 역시 그냥 들어간다.
+                    if s.top == -1 or s.peek() == token[0]:
+                        break
+                    else:
+                        result.append(s.pop())
+                # 입장
+                s.push(m[i])
+            else:  # )
+                for l in range(len(s.stack)):
+                    if s.peek() != token[0]:
+                        result.append(s.pop())
+                    else:  # ( 만나면
+                        s.pop()
+                        break
+
+    # for문을 다 돌고, ()를 사용하지 않고 연산한 경우에는, Stack에 미처 나오지 못한 사칙연산이 있을 수 있음.
+    if s.stack:  # 스택이 아직 남아있다면,
+        # 돌면서 result에 붙이기
+        while s.stack:
+            result.append(s.pop())
+
+    # 이제 나온 result 계산
+    # 최종 연산 결과를 담을 스택엔 피연산자만 들어간다.
+    s2 = Stack()
+    # 위에서 구한 후위표기식의 결과를 돌면서
+    for i in range(len(result)):
+        # 피연산자는 그냥 넣고
+        if not result[i] in token:
+            s2.push(result[i])
+        # 연산자라면 피연산자 2개를 꺼내와서, 연산자가 무엇인지 for문을 돌며 찾아서
+        # 그 연산자로 계산을 실행하고, 다시 그 결과값을 stack에 push한다.
+        else:
+            b = int(s2.pop())
+            a = int(s2.pop())
+            # eval()을 쓰면 이 과정은 필요없긴 하다. 어찌됐건,
+            # 계산 후 계산결과를 다시 stack에 push()한다. 연산을 지속하기 때문
+            for k in token:
+                if token[1] == result[i]:
+                    s2.push(a*b)
+                    break
+                if token[2] == result[i]:
+                    s2.push(a/b)
+                    break
+                if token[3] == result[i]:
+                    s2.push(a+b)
+                    break
+                if token[4] == result[i]:
+                    s2.push(a-b)
+                    break
+        # eval 사용시 if문 필요없음
+
+    print("#{} {}".format(tc, s2.stack[0]))
+```
+
+```python
+# 구현 예제 input, output
+101
+9+5*2+1+3*3*7*6*9*1*7+1+8*6+6*1*1*5*2*4*7+4*3*8*2*6+7*8*4*5+3+7+2+6+5+1+7+6+7*3*6+2+6+6*2+4+2*2+4*9*3
+79
+4+4*3*4*9+2+7*4*7+7*7*9*5*2+8*8+2*6*7*3*7*9*3*4+8+8*9+3+9+6+9+4*1+6*3+5+1+7+5*1
+113
+2+3+9*9+8+2*1+3*2*3*1+3*3+1+2+3*6*2*7*4+9+1+4+6+9*9*5+7+8+6+3+9*2+1+7+4+3+9*3*1+4*4+4*3*1+9*3+9*5*1*7*8+2+8+8*7+9
+89
+4*9+1+1*8+8*9*7+1*4*5*2*5+8*3*5+5+2*4+2+8+6*2*2+9+3*1*2+2*5+9*2*3*9+6+7*9+9*4+7+6+6*6+3+8
+77
+5+4+9+9*9*2+6*6*5+9+3*5+5*7*8*3*7*1*9*9+8+3+8*9*6+2*9*3+6*5+6*7*2+5+5*3+4*6+7
+119
+5+7+1+6+3+6*7+7+5*5*3*5*6*9+5*9*5*9+8+8+5*1*6*2+3+2+8+6+2+2*3*4+5*8*3*6*2*9+1*7*7*4*2+2*5+6+7+2*7*4+9*6*4*3*1*3*5+3*7+8
+115
+8*6+3*9*8*7*6*3+5*7*6*6+3*5+2*4*9*3+5+2+1*4*1*7+6*8+9+3+2+8*3+8*2+6*9+2*2*7+8*1*2+9*3+1+5*5*8+4*1*2*4*2*6*3*8*8+4+1
+91
+5*8*4+5*7+9*2+6+5*7+1*7*9+8+6*1*2+7+5*9*6*3+4*8*9*6*1*3+7*1+2+5+1*4*9+6*4+7*1*2*4*2+3+3*4+9
+107
+7*1+7+5+3*7*1*7+8*3*8+7+3*2*6*2+3+6*4+3+8+9*4+1+5*7*8+9+1+2+5+6*7+4*5*2+4+8*4+7+9*1*3*1+1*2*8+3+2+9*1*5*9+7
+109
+1+1+7+3*2+1+3*7*8+9*6+1+8*3*7+8*5*7*7+4*3*7*4+7+3+2*2+7+8*8*6+6*6*7+7*1*5*7+3+1*5+1*8*4+9+6+7*5+3+1*8*8*9+4+7
+
+#1 28134
+#2 195767
+#3 4293
+#4 1592
+#5 477326
+#6 45647
+#7 102951
+#8 6548
+#9 1394
+#10 4285
+```
+
+
+
+```python
+s = (6 + 5*(2-8)/2)
+stack = []
+for i in s:
+    if icp > isp:
+        stack.push(i)
+    elif i == int:
+        # 피 연산자 바로 출력
+    if isp(stack.peek()) < isp(i):
+        stack.push(i)
+    
+```
+
+![image-20210224091801398](03_algorithm.assets/image-20210224091801398.png)
+
+**Step2**
+
+**후위 표기법의 수식을 스택을 이용하여 계산**
+
+1. 피연산자를 만나면 Stack에 Push
+2. 연산자를 만나면 필요한 만큼의 피연산자를 스택에서 pop하여 연산(나중에 들어간 값이 좌항임을 잊지 말 것), 그 후 연산결과를 다시 스택에 Push.
+3. 수식이 끝나면, 마지막으로 스택을 pop하여 출력
+
+## 백트래킹(Backtracking)
+
+> 해를 찾는 도중에 '막히면'(즉, 해가 아니면) 되돌아가서 다시 해를 찾아 가는 기법이다.
+
+- 백트래킹 기법은 최적화(Optimization) 문제와 결정(Desicion) 문제를 해결할 수 있다.
+- 결정 문제 : 문제의 조건을 만족하는 해가 존재하는 지의 여부를 'YES' 또는 'NO'가 답하는 문제
+  - 미로 찾기
+  - n-Queen 문제
+  - Map Coloring
+  - 부분 집합의 합(Subset Sum) 문제 등
+
+### 미로찾기
+
+- 입구와 출구가 주어진 미로에서 입구부터 출구까지의 경로를 찾늠 누제
+- 이동할 수 있는 방향은 4방향으로 제한
+
+**미로찾기 알고리즘**
+
+- Recursive, Stack 다 이용 가능
+
+1. **현재 위치(좌표)와 이동할 방향**을 Stack에 저장
+2. 시계방향(상우하좌) 돌면서 이동 가능한 곳으로 이동
+3. 더 이상 이동이 불가능하면 Stack 값을 불러와 돌아가기
+4. 다시 경로를 찾는다.
+
+
+
+### Backtracking과 깊이우선탐색(DFs)의 차이
+
+- 어떤 노드에서 출발하는 경로가 해결책으로 이어질 것 같지 않으면 더 이상 그 경로를 따라가지 않음으로써 시도의 횟수를 줄임.(Prunning 가지치기)
+- DFS가 모든 경로를 추적하는데 비해 백트랙킹은 불필요한 경로를 조기에 차단
+- DFS를 가하기에는 경우의 수가 너무 많음. 즉, N!가지의 경우의 수를 가진 문제에 DFS를 가하면 당연히 처리 불가능한 문제.
+- 백트랙킹 알고리즘을 적용하면 일반적으로 경우의 수가 줄지만 이 역시 최악의 경우, 여전히 지수함수 시간(Exponential Time)을 요하므로 처리 불가능
+
+
+
+### 백트랙킹 기법
+
+- 어떤 노드의 유망성을 점검 후, 유망(promising)하지 않다고 결정되면 그 노드의 부모로 되돌아가(Backtracking) 다음 자식 노드로 감
+
+- 어떤 노드를 방문하였을 때, 그 노드를 포함한 경로가 해답이 될 수 없으면 그 노드는 유망하지 않다고 하며, 반대로 해답의 가능성이 있으면 유망하다고 한다.
+
+- 가지치기(Pruning): 유망하지 않은 노드가 포함되는 경로는 더 이상 고려하지 않는다.
+
+  **방법**
+
+  - 상태 공간 트리의 깊이 우선 검색을 실시
+  - 각 노드가 유망한지를 점검
+  - 만일 그 노드가 유망하지 않으면, 그 노드의 부모 노드로 돌아가서 검색을 계속
+
+
+
+### 일반 백트래킹 알고리즘
+
+![image-20210224102647306](03_algorithm.assets/image-20210224102647306.png)
+
+
+
+### 부분집합 구하기
+
+- 어떤 집합의 공집합과 자기자신을 포함한 모든 부분집합을 **Powerset** 이라고 하며, 구하고자 하는 어떤 집합의 원소 개수가 N일 경우 부분집합의 개수는 2**N이 나온다.
+  - 백트래킹 접근 방법을 이용
+  - n개의 원소가 들어있는 집합의 부분집합 2**n개를 만들때는, True 또는 False값을 가지는 ㅎ아목들로 구성된 n개의 배열을 만드는 방법을 이용
+  - 여기서 배열의 i번째 항목은 i번째의 원솩 부분집의 값인지 아닌지를 나타내는 값이다.
+
+**각 원소가 부분집합에 퐇마되어있는지를 loop 이용하여 호가인하고 부분집합을 생성하는 방법**
+
+```python
+bit = [0, 0, 0, 0]
+for i in range(2):
+    bit[0] = i
+    for j in range(2):
+        bit[1] = j
+        for k in ragne(2):
+            bit[2] = k
+            for l in range(2):
+                bit[3] = l
+                print(bit)
+```
+
+```python
+# Powerset 구하는 백트래킹 알고리즘
+# 수도코드
+def backtrack(a, k, input):
+    global MAXCANDIDATES
+    c = [0] * MAXCANDIDATES
+    
+    if k == input :
+        process_solution(a, k)  # 답이면 원하는 작업을 한다.
+    else:
+        k += 1
+        ncandidates = construct_candidates(a, k, input, c)
+        for i in range(ncandidates):
+            a[k] = c[i]
+            backtrack(a, k, input)
+            
+def construct_candidates(a, k, input, c):
+    c[0] = True
+    c[1] = False
+    
+MAXCANDIDATES = 100
+NMAX = 100
+a = [0] * NMAX
+backtrack(a, 0, 3)
+```
+
+```python
+# 예
+N = 3 # N개의 자료를 뽑고싶다. Input
+
+arr = [1, 2, 3] # 우리가 활용할 데이터
+sel = [0] * N # a list(내가 해당 원소를 뽑았는지 체크)
+
+def powerset(idx):
+    if idx == N:
+        # print(*sel)
+        print(sel, ":", end = " ")
+        for i in range(N):
+            if sel[i]:
+                print(arr[i], end = ' ')
+        print()
+        
+        # return # 밑에 else쓰면 return 필요없음.
+    # idx 자리의 원소를 안뽑고 간다.
+    else:
+    	sel[idx] = 0  
+    	powerset(idx+1)  # 함수는 Return X시 후입선출. 계속 실행 일시 정지 상태로 대기
+    	# idx 자리를 뽑고 가는 경우
+    	sel[idx] = 1  # True
+    	powerset(idx+1)  # 위에서 idx=3이었던거 수행후, idx = 2 였던 것이 이리로 내려옴.
+        
+        # for i in range(2):
+            # sel[idx] = i
+            # powerset(idx+1)
+
+powerset(0)
+```
+
+```python
+전체집합의 길이 = 3 # N개의 자료를 뽑고싶다. Input
+
+전체집합 = [1, 2, 3] # 우리가 활용할 데이터
+부분집합 = [0] * 전체집합의 길이
+
+def powerset(전체집합의 인덱스번호):
+    if 전체집합의 인덱스번호 == 전체집합의길이:
+        print(*부분집합)
+        # return # 밑에 else쓰면 return 필요없음.
+    # idx 자리의 원소를 안뽑고 간다.
+    else:
+    	부분집합[전체집합의 인덱스번호] = 0  
+    	powerset(전체집합의 인덱스번호+1)  # 함수는 Return X시 후입선출. 계속 실행 일시 정지 상태로 대기
+        # 각 #은 현재 인덱스 위치다. 0 1 2 3번쨰 인덱스로 가면 더이상돌수없으니 위에서 출력함
+        # 돌면서 모든 것을 1 0으로 나누면서 계속 내려가기
+        # 000
+        
+        ## 000
+        ### 000 출력 [] 공집합
+        ### 001 출력 [3]
+        
+        ## 010
+        ### 011 출력 [2,3]
+        ### 010 출력 [2]
+        
+    	# idx 자리를 뽑고 가는 경우
+    	부분집합[전체집합의 인덱스번호] = 1  # True
+    	powerset(전체집합의 인덱스번호+1)  # 위에서 idx=3이었던거 수행후, idx = 2 였던 것이 이리로 내려옴.
+        # 100
+        
+        ## 110
+        ### 111 출력 [1,2,3]
+        ### 110 출력 [1,2]
+        
+        ## 100
+        ### 101 출력 [1,3]
+        ### 100 출력 [1]
+        
+        # for i in range(2):
+            # sel[idx] = i
+            # powerset(idx+1)
+
+powerset(0)
+```
+
+
+
+![image-20210224123658201](03_algorithm.assets/image-20210224123658201.png)
+
+![image-20210224130928574](03_algorithm.assets/image-20210224130928574.png)
+
+## 순열(Permitation)
+
+> 순열은 집합 내에서 **만들 수 있는 순서**의 집합. [1, 2] [2,1]도 다른 집합으로 인정된다.
+>
+> 계산식 : nPr = n\*n(n-1)....*(n-r+1). 2개에서 2개 뽑는 법은 , 2P2 = 2곱하기(2-2+1)
+
+**단순하게 순열을 생성하는 방법**
+
+- 동일한 숫자가 포함되지 않았을 때, 각 자리 수 별로 loop를 이용해 아래와 같이 구현할 수 있다.
+
+```python
+for i1 in range(1, 4):
+    for j in range(1, 4):
+        if j != i:
+            for k in range(1, 4):
+                if k != i and k != j:
+                    print(i,j,k)
+```
+
+**순열_재귀**
+
+```python
+# 예제
+arr = [1, 2, 3]
+N = 3  # len(arr)
+sel = [0]*N  # 결과들이 저장될 리스트
+check = [0]*N  # 해당 원소를 이미 사용했는지 안했는지에 대한 체크
+
+def perm(idx):
+    # 다 뽑아서 정리했다면. 몇 개를 뽑아 만들고 싶은가의 기준. 3P2개라면 N-1
+    if idx == N:
+        else:
+            for i in range(N):
+                if check[i] == 0:
+                    sel[idx] = arr[i]  # 값을 써라
+                    check[i] = 1  # 사용을 했다는 표시
+                    perm(idx+1)
+                    check[i] = 0  # 다음 반복문을 위한 원상복구
+        
+perm(0)
+
+# arr이 원소 4개일떄, 4P3을 한다면
+for문은 N까지, if idx == N-1
+혹은 for을 len(arr)로?
+```
+
+
+
+**순열_비트**
+
+```python
+# 집합
+arr = [1, 2, 3]
+# len(arr)
+N = 3
+
+sel = [0]*N  # 뽑앗나 안뽑았나 확인
+
+# 자리 컨트롤 idx, check라는 변수 // check 10진수 정수
+def perm(idx, check):
+    if idx == N:
+        print(sel)
+        return
+    
+    for i in range(N):
+    	if check & (1<<i): continue  # 이미 값이 있으면 돌아가
+            
+        sel[idx] = arr[i]
+        perm(idx+1, check|(1<<i))  # 원상복귀 과정이 필요 X. 알아서 체크하므로
+        # check|(1<<j) == 1이라면, 이미 했다는 것
+
+perm(0, 0)
+```
+
+
+
+**순열_스왑**
+
+```python
+arr = [1, 2, 3]
+
+N = len(arr)
+
+def perm(idx):
+    if idx == N:
+        return print(arr)
+    else:
+        for i in range(idx, N):
+            arr[idx], arr[i] = arr[i], arr[idx]
+            perm(idx+1)
+            arr[idx], arr[i] = arr[i], arr[idx]
+
+perm(0)
+```
+
+
+
+## 분할 정복 알고리즘
+
+> Time Complexity : O(n)
+
+**유래**
+
+- 나폴레옹이 사용한 전략
+- 연합군의 중앙부로 쳐들어가 연합군을 둘로 나눔
+- 둘로 나누고 하나씩 격파함
+
+
+
+**설계 전략**
+
+- 분할(Divide) : 해결할 문제를 여러 개의 작은 부분으로 나눈다.
+- 정복(Conquer) : 나눈 작은 문제를 각각 해결한다.
+- 통합(Combine) : (필요하다면) 해결된 해답을 모은다.
+
+
+
+### **분할 정복 기반의 알고리즘**
+
+> O(log n (log2n임))
+
+```python
+def Power(Base, Exponent):
+    if Exponent == 0 or Base == 0:
+        return 1
+    
+    if Exponent % 2 == 0 :
+        NewBase = Power(Base, Exponent/2)
+        return NewBase * NewBase
+    else:
+        NewBase = Power(Base, (Exponent-1)/2)
+        return (NewBase * NewBase) * Base
+```
+
+
+
+### 두 가지를 활용해본 거듭제곱
+
+```python
+# 반복문을 이용한 선형시간 O(n)
+
+def Iterative_Power(x, n):
+    result = 1
+    
+    for i in range(1, n+1):
+        result *= x
+        
+    return result
+
+# 분할 정복을 이용한 거듭제곱 O(logN) 2진수 로그임 당연히
+# 훨씬 빠르다
+
+def Recursive_Power(x, n):
+    if n == 1: return x
+    if n&2 == 0 :
+        y = Recursive_Power(x, n//2)
+        return y*y
+   	else:
+        y = Recursive_Power(x, (n-1)//2)
+        return y*y*x
+```
 
