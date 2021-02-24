@@ -1966,8 +1966,6 @@ for i in s:
     
 ```
 
-![image-20210224091801398](03_algorithm.assets/image-20210224091801398.png)
-
 **Step2**
 
 **후위 표기법의 수식을 스택을 이용하여 계산**
@@ -2030,7 +2028,7 @@ for i in s:
 
 ### 일반 백트래킹 알고리즘
 
-![image-20210224102647306](03_algorithm.assets/image-20210224102647306.png)
+
 
 
 
@@ -2162,7 +2160,7 @@ powerset(0)
 
 
 
-![image-20210224123658201](03_algorithm.assets/image-20210224123658201.png)
+
 
 ![image-20210224130928574](03_algorithm.assets/image-20210224130928574.png)
 
