@@ -894,7 +894,7 @@ def binarySearch2(arr, low, high, key):
 
 
 
-### 셀렉션 알고리즘(Selection Algorithm)
+### 셀렉션 알고리즘(Selection Algorithm) = 선택정렬
 
 > 시간복잡도 : O(kn)
 
@@ -1448,6 +1448,94 @@ class Stack:
             return self.arr.append(items)
 ```
 
+```python
+# Stack을 이용한 돌면서 붙어있는 같은 2개의 숫자 제거하기.
+# 제거하고나면 다시 검사 후, 또 두개 붙은게 있다면 제거한다.
+
+# Stack 이용
+# 돌면서 붙은 숫자 제거하기
+# Stack 예제
+class Stack():
+    def __init__(self):
+        self.stack = []
+
+    def __len__(self):
+        return len(self.stack)
+
+    # 스택의 필수요소, push / top / pop / peek / isEmpty
+    def push(self, items):
+        return self.stack.append(items)
+
+    def isEmpty(self):
+        if self.stack:
+            return False
+        return True
+
+    def peek(self):
+        return self.stack[len(self.stack) - 1]  # 자료를 꺼내진 않고, 그 값만 보여주기
+
+    def pop(self):
+        if self.stack:
+            return self.stack.pop()  # 맨 뒤에 것을 지우고 반환하는 pop 메서드
+        return "underflow"
+
+    def top(self):
+        return len(self.stack) - 1  # top(최고항) index값 반환
+
+# Test Case
+T = 10
+
+for tc in range(1, T+1):
+    # 문자열 길이와 그 문자
+    N, text = input().split()
+    N = int(N)
+    text = list(text)
+    
+    # 스택 실행
+    result = Stack()
+
+    # text 길이만큼 돌면서
+    for i in range(len(text)):
+        # text stack에 넣고
+        result.push(text[i])
+        # 스택 index가 1이상일때
+        if result.top() >= 1:
+            # Stack 서로 같으면 두값을 stack에서 빼기. text길이만큼 반복
+            if result.stack[result.top()] == result.stack[result.top()-1]:
+                result.pop()
+                result.pop()
+
+    print(''.join(result.stack))
+
+##########################################
+# Stack 없이 간단하게 WHILE문 구현
+# 돌면서 붙은 숫자 제거하기
+T = 10  # Test Case
+
+for tc in range(1, T+1):
+    # 문자열 길이와 그 문자
+    N, text = input().split()  # eg. 13
+    N = int(N) # eg. 134435678998
+    arr = []
+    for i in range(len(text)):
+        arr += [text[i]]
+
+    isFalse = True
+    while isFalse:
+        for i in range(len(arr)-1):
+            if arr[i] == arr[i+1]:
+                arr.pop(i)
+                arr.pop(i)  # 다시한번 제거할때는, i+1이 i항이 되어있으니까
+                break  # for문 탈출후 len(arr) 재설정
+        else:
+            isFalse = False
+    print("#{}".format(tc), end=" ")
+    for i in range(len(arr)):
+        print(arr[i], end="")
+    print()
+
+```
+
 
 
 ### 스택의 응용
@@ -1479,7 +1567,111 @@ if ( ( i == 0) && (  j == 0) :
 - 마지막 괄호까지 조사하고도 스택에 괄호가 남아있으면 조건 1에 위배된다.
 
 ```python
-# 괄호를 조사하는 Algorithm 예제
+# 간단한 Stack 활용 괄호 조사 예제
+
+stack = []
+test_case = input()
+for i in test_case:
+    if i == "(" or i == "{" or i == "[":
+        stack.append(i)
+
+    elif not len(stack):
+        print("error")
+        break
+
+    elif i == ")":
+        if stack[len(stack)-1] == "(":
+            stack.pop(-1)
+        else:
+            print("error")
+            break
+
+    elif i == "}":
+        if stack[len(stack)-1] == "{":
+            stack.pop(-1)
+        else:
+            print("error")
+            break
+
+    elif i == "]":
+        if stack[len(stack)-1] == "[":
+            stack.pop(-1)
+        else:
+            print("error")
+            break
+
+if not stack:
+    print("True")
+
+```
+
+
+
+```python
+# 괄호를 조사하는 Algorithm 심화 예제
+# Stack 예제
+class Stack():
+    def __init__(self):
+        self.stack = []
+
+    def __len__(self):
+        return len(self.stack)
+
+    # 스택의 필수요소, push / top / pop / peek / isEmpty
+    def push(self, items):
+        return self.stack.append(items)
+
+    def isEmpty(self):
+        if self.stack:
+            return False
+        return True
+
+    def peek(self):
+        return self.stack[len(self.stack) - 1]  # 자료를 꺼내진 않고, 그 값만 보여주기
+
+    def pop(self):
+        if self.stack:
+            return self.stack.pop()  # 맨 뒤에 것을 지우고 반환하는 pop 메서드
+        return "underflow"
+
+    def top(self):
+        return len(self.stack) - 1  # top(최고항) index값 반환
+
+
+T = int(input())
+
+for tc in range(1, T + 1):
+    text = input()
+    stack = []
+    result = 0
+    for i in text:
+        if i == "(":
+            stack.append("(")
+        elif i == ")":
+            if not stack:
+                stack.append(")")
+                break
+            if stack[len(stack) - 1] != "(":
+                break
+            else:
+                stack.pop()
+
+        if i == "{":
+            stack.append("{")
+        elif i == "}":
+            if not stack:
+                stack.append("}")
+                break
+            if stack[len(stack) - 1] != "{":
+                break
+            else:
+                stack.pop()
+
+    if not stack:
+        result = 1
+
+    print("#{} {}".format(tc, result))
+
 ```
 
 
@@ -1584,6 +1776,27 @@ def fibo2(n):
 - 재귀적 구조보단 반복적 구조로 DP를 구현한 것이 성능 면에서 효율적
 - 재귀적 구조는 내부에 시스템 호출 스택을 사용하는 Overhead가 발생하기 때문
 
+```python
+# SWEA_4869_종이붙이기문제
+# DP 예제
+
+def dp(n):
+    if n == 1:
+        return 1
+    if n == 2:
+        return 3
+    else:
+        return dp(n-1) + 2*dp(n-2)
+
+
+T = int(input())
+
+for tc in range(1, T+1):
+    N = int(input())
+
+    print("#{} {}".format(tc, dp(N//10)))
+```
+
 
 
 ### DPS(깊이우선탐색)
@@ -1603,6 +1816,40 @@ def fibo2(n):
 2. 정점 v에 인접한 정점 중에서
    1. 방문하지 않은 정점 w가 있으면, 정점 v를 Stack에 Push, 정점 w 방문. 그리고 w를 v로 하여 다시 반복
    2. 방문하지 않은 정점이 없으면, 탐색의 방향을 바꾸기 위해서 스택을 pop 후, 받은 가장 마지막 방문 정점을 v로 하여 다시 2.를 반복
+
+```python
+# SWEA_4871_그래프경로 문제
+def dfs(s):
+    visited[s] = True
+    for i in range(V):
+        if arr[s][i] and not visited[i]:
+            dfs(i)
+
+
+T = int(input())
+
+for tc in range(1, T+1):
+    # 정점수와 간선수
+    V, E = map(int, input().split())
+    # 정점수만큼 x,y 좌표를 갖는 2차원 배열(인접행렬이용)
+    arr = [[0]*V for _ in range(V)]
+    visited = [False]*V
+
+    for i in range(E):
+        y, x = map(int, input().split())
+        arr[y-1][x-1] = 1
+        # arr[x-1][y-1] = 1 # 유향 그래프면 생략가능
+    # 경로는 존재하는가
+    # Start Node S, 도착점 Goal G
+    S, G = map(int, input().split())
+
+    dfs(S-1)
+    # visited[0] = 1번 node 방문했다는 의미
+    if visited[G-1]:
+        print("#{} 1".format(tc))
+    else:
+        print("#{} 0".format(tc))
+```
 
 
 
@@ -1672,6 +1919,71 @@ dfs(arr, 1, visited)
 
 ```
 
+#### 길찾기 문제
+
+```python
+# 0번에서 99번에 갈 수 있는 지 구현합니다.
+
+def dfs(n):
+    visited[n] = True
+    # 해당 Node에서 갈 수 있는 Node 돌며 방문 검사
+    for i in arr[n]:
+        if not visited[i]:
+            dfs(i)
+
+for T in range(1, 11):
+    # Test Case 번호와 간선수
+    tc, R = map(int, input().split())
+    num_arr = list(map(int, input().split()))  # 간선 입력받기
+    arr = [[] for _ in range(100)] # 인접 List
+    visited = [False]*100
+
+    # 간선 입력 한번에 받았으므로, 2개씩 잘라주며 arr[앞번호](출발Node)에 [다음번호](도착Node) append
+    for i in range(0, len(num_arr), 2):
+        arr[num_arr[i]].append(num_arr[i+1])
+
+    dfs(0)
+    # 99번항에 도착했나요?
+    if visited[99]:
+        print("#{} 1".format(tc))
+    else:
+        print("#{} 0".format(tc))
+
+#########################################
+# Stack을 통한 구현
+# 0번에서 99번에 갈 수 있는 지 구현합니다.
+
+for T in range(1, 11):
+    # Test Case 번호와 간선수
+    tc, R = map(int, input().split())
+    num_arr = list(map(int, input().split()))  # 간선 입력받기
+    arr = [[] for _ in range(100)] # 인접 List
+    visited = [False]*100
+    stack = [0]
+
+    # 간선 입력 한번에 받았으므로, 2개씩 잘라주며 arr[앞번호](출발Node)에 [다음번호](도착Node) append
+    for i in range(0, len(num_arr), 2):
+        arr[num_arr[i]].append(num_arr[i+1])
+
+    # 스택에 값이 있다면
+    while stack:
+        #
+        current = stack.pop()
+        # 방문한 곳 값 바꿔주기
+        visited[current] = True
+
+        for i in arr[current]:
+            if not visited[i]:
+                stack.append(i)
+
+    # 99번항에 도착했나요?
+    if visited[99]:
+        print("#{} 1".format(tc))
+    else:
+        print("#{} 0".format(tc))
+
+```
+
 
 
 **DFS Algorithm - 반복(Iterative). Stack활용**
@@ -1712,7 +2024,63 @@ DFS(v):
    - 정점은 아주 많고, 간선은 아주 적다면 불필요한 0이 많아 메모리 소모가 크다.
 
    ```python
+   # 7 8
+   # 1 2
+   # 1 3
+   # 2 4
+   # 2 5
+   # 4 6
+   # 5 6
+   # 6 7
+   # 3 7
+   # 답 : 1 2 4 6 5 7 3 A B D F E G C
+   def dfs(n):
+       visited[n] = True
+       print(chr(n + 65), end=" ")  # A~Z로 정점이 명명되어 있다면..
    
+       for i in range(N):
+           if arr[n][i] and not visited[i]:
+               dfs(i)
+   
+   
+   # 정점수, 간선수
+   N, M = map(int, input().split())
+   
+   arr = [[0] *N for _ in range(N)]
+   visited = [False] * N
+   for i in range(M):
+       y, x = map(int, input().split())
+       arr[y-1][x-1] = 1
+       arr[x-1][y-1] = 1  # 유향 그래프(방향이 정해져 있는 그래프)의 경우 필요없음.
+   
+   # 1번 node가 0번이므로 0 투입
+   dfs(0)
+   
+   ########################################################
+   # 인덱스를 좀 더 편하게 사용해보자
+   def dfs2(n):
+       visited[n] = True
+       print(chr(n + 64), end=" ")
+   
+       for i in range(N+1):
+           if arr[n][i] and not visited[i]:
+               dfs2(i)
+   
+   N, M = map(int, input().split())
+   
+   # Index의 편의를 위해서
+   arr = [[0]*(N+1) for _ in range(N+1)]
+   visited = [False]*(N+1)
+   for i in range(M):
+       y, x = map(int, input().split())
+       arr[y][x] = 1
+       arr[x][y] = 1
+   
+   for i in arr:
+       print(*i)
+   
+   # 1번 노드가 이젠 1번이니까..
+   dfs2(1)
    ```
 
 2. 인접List방식(Adjacent List)
@@ -1732,6 +2100,99 @@ DFS(v):
 4 -> 1, 3
 
 arr[1][0]=2 arr[1][1] = 3 arr[1][2] = 4
+```
+
+```python
+
+```
+
+
+
+```python
+# 구현방식
+# dfs 함수 정점과 간선의 인접리스트 graph, 현재 위치 n, 방문한 곳 T/F배열 visited
+def dfs(graph, n, visited):
+    visited[n] = True
+    print(n, end=" ")
+
+    # graph[n]의 요소를 돌며
+    for i in graph[n]:
+        # 방문한 곳이 아니라면
+        if not visited[i]:
+            # 함수를 실행, 이 함수는 종료되지 않고 기다리고 있다가 다른 함수가 종료되면 또 실행된다.
+            # Return문은 기존 함수가 정지되므로, 돌아갈 곳이 없어지면 진행이 불가능하다.
+            dfs(graph, i, visited)
+
+# 정점수, 간선수
+N, M = map(int, input().split())
+# 정점수보다 하나 많은 array (Index는 0부터 시작이지만, n 시작점(시작 정점)이 1이어서 맞춰주려고
+arr = [[] for _ in range(N+1)]
+
+# 간선수만큼 돌면서
+for i in range(M):
+    # 간선을 2차원의 인접리스트에 각각 배치한다.
+    j, k = map(int, input().split())
+    arr[j].append(k)
+    arr[k].append(j)  # 유향이면 생략가능하다.
+
+visited = [False]*(N+1)
+
+dfs(arr, 1, visited)
+
+```
+
+```python
+# 처음 내 방식대로 구현해본 인접리스트를 통한 DFS(깊이우선탐색)
+# 인접리스트를 통해 input받아서, Stack이용한 DFS 구성
+
+# 인접 List를 이용한 구현
+
+# 두 개의 정점 사이 간선이 나열된 arr. 모든 정점을 깊이 우선 탐색하여, 화면ㅅ에 깊이 우선 탐색 경로를 출력
+
+arr = [1, 2, 1, 3, 2, 4, 2, 5, 4, 6, 5, 6, 6, 7, 3, 7]
+# 1은 2와 3과 연결, 2는 4와 5와 연결(1과 연결된건 앞에서 나왔으므로 생략됨
+
+visited = ["F"]*7
+adjacency = [[] for _ in range(7)]
+stack = []
+
+# 각 2차원배열에 연결된 노드 번호 넣기
+for i in range(0, len(arr), 2):
+    adjacency[arr[i]-1].append(arr[i+1])
+    adjacency[arr[i+1]-1].append(arr[i])
+
+#출력 참고
+print(adjacency)
+# 1번부터 탐색 시작
+visited[0] = "T"
+# 현재 위치 저장
+n = 1
+# 결과값을 젖아할 list
+result = [n]
+# 방문하지 않은 곳이 있다면 계속 돌면서
+while "F" in visited:
+    # stack에 내 출발지점을 넣는다.
+    if not n in stack:
+        stack.append(n)
+    # 현재 위치에서 갈 수 있는 노드 번호들을 탐색
+    for i in range(len(adjacency[n-1])):
+        # 연결된 노드의 visited 값이 F라면
+        if visited[adjacency[n-1][i]-1] == "F":
+            # 그 노드 번호가 새로운 n이 되고
+            n = adjacency[n-1][i]
+            # 그 노드는 방문한 곳이 된다
+            visited[n-1] = "T"
+            # 탈출
+            break
+    # 방문하지 않은 인접 노드가 없다면 스택 한칸 전으로 돌아가서 다시 수행한다.
+    else:
+        stack.pop(-1)
+        n = stack[len(stack)-1]
+    # 결과값 저장(경로저장)
+    if not n in result:
+        result.append(n)
+    print(stack)
+print(*result)
 ```
 
 
@@ -1954,6 +2415,7 @@ for tc in range(1, T+1):
 
 
 ```python
+# 수도코드
 s = (6 + 5*(2-8)/2)
 stack = []
 for i in s:
@@ -1987,7 +2449,7 @@ for i in s:
 
 ### 미로찾기
 
-- 입구와 출구가 주어진 미로에서 입구부터 출구까지의 경로를 찾늠 누제
+- 입구와 출구가 주어진 미로에서 입구부터 출구까지의 경로를 찾는 문제
 - 이동할 수 있는 방향은 4방향으로 제한
 
 **미로찾기 알고리즘**
@@ -1998,6 +2460,81 @@ for i in s:
 2. 시계방향(상우하좌) 돌면서 이동 가능한 곳으로 이동
 3. 더 이상 이동이 불가능하면 Stack 값을 불러와 돌아가기
 4. 다시 경로를 찾는다.
+
+**SWEA 4875번 미로문제**
+
+```python
+def dfs(array, start_y, start_x):
+    r = start_y
+    c = start_x
+    # 상우하좌
+    dy = [-1, 0, 1, 0]
+    dx = [0, 1, 0, -1]
+    # 전역변수 result를 사용하겠다. 여기 result를 0으로 준다면, 계속 초기화해서 return이 0으로 가게 된다.
+    global result
+    # 이동 가능한곳 체크하며 이동
+    for i in range(4):
+        r += dy[i]
+        c += dx[i]
+        if 0 <= r <= len(array)-1 and 0 <= c <= len(array)-1:
+            if array[r][c] == 3:
+                # dfs중간에 이것이 실행됐다면, 그 이후로 보이지 않는 return은 계속 "#{tc} 1"로 이뤄지고 있을 것이다.
+                result = 1
+            elif array[r][c] == 0 and visited[r][c] == 0:
+                visited[r][c] = 1
+                # return은 지속적으로 이뤄지나, 내가 이 return을 print하지 않아서, print 값은 41행 단 한번만 나온다.
+                # 내가 보지 못하는 것뿐, return은 계속 하고 있다.
+                dfs(arr, r, c)
+        # 위에 조건에 부합하지 않았다면 다시 그 값에서 돌아야하니까
+        r -= dy[i]
+        c -= dx[i]
+
+    return "#{} {}".format(tc, result)
+
+
+T = int(input())
+
+for tc in range(1, T+1):
+    #NxN 사이즈의 미로
+    N = int(input())
+    # 공백없이 입력된 한줄의 str을 하나씩 분리해 넣어주는 이차원 배열 생성
+    # 1은 벽 0은 길 3은 출구 2는 시작지점이다.
+    arr = [[int(i) for i in input()] for _ in range(N)]
+    visited = [[0]*N for _ in range(N)]
+    # 미로를 탈출하면 값이 1로 변한다
+    result = 0
+    for a in range(N):
+        for z in range(N):
+            # 마지막줄의 2번이 출발점
+            if arr[a][z] == 2:
+                print(dfs(arr, a, z))
+
+# Input 예제
+3
+5
+13101
+10101
+10101
+10101
+10021
+5
+10031
+10111
+10101
+10101
+12001
+5
+00013
+01110
+21000
+01111
+00000
+
+# Output
+#1 1
+#2 1
+#3 0
+```
 
 
 
@@ -2028,18 +2565,18 @@ for i in s:
 
 ### 일반 백트래킹 알고리즘
 
+- PPT 참조
 
 
 
-
-### 부분집합 구하기
+### 부분집합 구하기2
 
 - 어떤 집합의 공집합과 자기자신을 포함한 모든 부분집합을 **Powerset** 이라고 하며, 구하고자 하는 어떤 집합의 원소 개수가 N일 경우 부분집합의 개수는 2**N이 나온다.
   - 백트래킹 접근 방법을 이용
   - n개의 원소가 들어있는 집합의 부분집합 2**n개를 만들때는, True 또는 False값을 가지는 ㅎ아목들로 구성된 n개의 배열을 만드는 방법을 이용
   - 여기서 배열의 i번째 항목은 i번째의 원솩 부분집의 값인지 아닌지를 나타내는 값이다.
 
-**각 원소가 부분집합에 퐇마되어있는지를 loop 이용하여 호가인하고 부분집합을 생성하는 방법**
+**각 원소가 부분집합에 포함되어있는지를 loop 이용하여 호가인하고 부분집합을 생성하는 방법**
 
 ```python
 bit = [0, 0, 0, 0]
@@ -2164,7 +2701,7 @@ powerset(0)
 
 ![image-20210224130928574](03_algorithm.assets/image-20210224130928574.png)
 
-## 순열(Permitation)
+## 순열2(Permitation)
 
 > 순열은 집합 내에서 **만들 수 있는 순서**의 집합. [1, 2] [2,1]도 다른 집합으로 인정된다.
 >
@@ -2326,3 +2863,13 @@ def Recursive_Power(x, n):
         return y*y*x
 ```
 
+
+
+
+
+# 복습 필요한곳
+
+- 전부
+- 순열, 분할정복알고리즘, 백트랙킹, 퀵정렬 한번더 확인 필수
+
+![image-20210224234207892](03_algorithm.assets/image-20210224234207892.png)
