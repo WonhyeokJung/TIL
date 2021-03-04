@@ -409,6 +409,9 @@ arr = [[0]*n]*n
 
 # 크게 3가지가 있다.
 # N = 행, M = 열
+# 기본 방식
+arr = [[0]*N]*N  # 절대금지. [0]*N이 같은 값을 가지게 됨
+arr = [[0]*N for _ in range(N)]  # 이렇게 선언
 
 # 1
 N, M = map(int,input().split())
