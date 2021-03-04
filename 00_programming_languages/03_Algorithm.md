@@ -2197,6 +2197,79 @@ print(*result)
 
 
 
+## BFS(Breadth Fisrt Search, 너비 우선 탐색)
+
+> 인접한 곳부터 방문 후 그곳부터 다시 인접한 곳을 방문하는 방식
+
+- 너비우선탐색은 탐색 시작점의 인접한 정점들을 먼저 모두 차례로 방문 후, 방문했던 정점을 시작점으로 하여 다시 인접한 정점들을 차례로 방문하는 방식
+- 인접한 곳 탐색 후, 차례로 다시 너비우선탐색을 하므로, 선입선출 형태의 자료구조인 큐를 활용함.
+
+```python
+# 수도코드
+def BFS(G, v):  # 그래프 G, 탐색 시작점 v
+    visited = [0]*n  # n: 정점의 개수
+    queue = []  # 큐생성
+    queue.append(v)  # 시작점 삽입
+    while queue:  # 큐가 차있는 동안
+        t = queue.pop(0)  # 큐의 첫번째 원소 반환
+        if not visited[t]:
+            visitied[t] = True  # 방문한 것으로 표시
+            visit(t)
+        for i in G[t]:  # t와 연결된 모든 선에 대해
+            if not visited[i]:
+                queue.append(i)
+```
+
+
+
+### 정점과 간선수, 각 간선이 주어질때(무향그래프) 방문하는 순서를 Queue + BFS 이용하여 출력하기
+
+```python
+# 정점수, 간선수
+# 모든간선
+"""
+7 8
+1 2
+1 3
+2 4
+2 5
+4 6
+5 6
+6 7
+3 7
+"""
+
+
+# 그래프와 시작점, 정점 수
+def BFS(graph, start_point, num):
+    queue = []
+    visited = [False] * (num + 1)  # 0번 안씀
+    queue.append(start_point)
+    while queue:
+        current = queue.pop(0)  # 가장 위의 정점 뽑아오기
+        if not visited[current]:  # 방문하지 않은 곳이라면
+            visited[current] = True
+            print(current, end=" ")
+        for k in range(len(graph[current])):  # 현재 정점과 연결된 정점들
+            if graph[current][k] == 1 and not visited[k]:  # 연결된 간선이 있다면
+                queue.append(k)
+    return "<- 출력순서"
+
+
+N, M = map(int, input().split())
+arr = [[0] * (N + 1) for _ in range(N + 1)]  # Index 편의 위함
+# 인접행렬을 사용한 방법입니다.
+for _ in range(M):
+    i, j = map(int, input().split())
+    arr[i][j] = 1
+    arr[j][i] = 1
+
+print(BFS(arr, 1, N))
+
+```
+
+
+
 
 
 ## 계산기
@@ -2861,6 +2934,163 @@ def Recursive_Power(x, n):
    	else:
         y = Recursive_Power(x, (n-1)//2)
         return y*y*x
+```
+
+
+
+## Queue(큐)
+
+> First in, First out
+
+- STACK은 FILO구조라면 Queue는 FIFO 구조
+
+**선형 큐, 원형 큐 예제**
+
+```python
+# 선형 큐
+
+class Queue:
+    def __init__(self, n):
+        self.queue = []
+        self.front = -1
+        self.rear = -1
+        # n = 큐 길이
+    # 큐 뒤쪽에 원소 삽입
+    def enqueue(self, n):
+        if self.isfull():
+            return "Queue_Full"
+        else:
+            self.rear += 1
+            return self.queue.append(n)
+    
+    # 큐 앞쪽 원소 삭제 후 반환
+    def dequeue(self):
+        if self.rear == self.front:
+            return "underflow"
+        else:
+            self.front += 1
+            return self.queue.pop(0)
+    
+    # 공백 상태의 큐를 생성
+    def createqueue(self):
+        self.queue = []
+        self.rear = -1
+        self.front = -1
+    
+    def isfull(self):
+        return self.rear == self.n-1
+
+    def isempty(self):
+        if self.rear == self.front:
+            return True
+        else:
+            return -1
+
+    # 앞쪽 원소를 삭제없이 반환
+    def qpeek(self):
+        if self.rear == self.front:
+            return "Queue is empty"
+        else:
+            return self.queue[0]
+```
+
+```python
+# 원형 큐
+
+class Queue:
+    def __init__(self, n):
+        # front, rear 초기값이 0
+        # queue 사이즈 n
+        self.queue = [""]*n
+        self.front = 0
+        self.rear = 0
+
+    # 큐 뒤쪽에 원소 삽입
+    def enqueue(self, items):
+        if self.isfull():
+            return "Queue_Full"
+        else:
+            self.rear = (self.rear + 1) % len(self.queue)
+            self.queue[self.rear] = items
+
+    # 큐 앞쪽 원소 삭제 후 반환
+    def dequeue(self):
+        if self.isempty():
+            return "Queue_Empty"
+        else:
+            self.front = (self.front + 1) % len(self.queue)
+            # 굳이 값을 지우지 않고, 반환만 하여 시간복잡도를 줄일 수 있음.
+            return self.queue[self.front]
+
+    # 공백 상태의 큐를 생성
+    def createqueue(self):
+        self.queue = []
+        self.rear = -1
+        self.front = -1
+
+    def isfull(self):
+        return (self.rear + 1) % len(self.queue) == self.front
+
+    def isempty(self):
+        if self.rear == self.front:
+            return True
+        else:
+            return False
+
+    # 앞쪽 원소를 삭제없이 반환
+    def qpeek(self):
+        if self.rear == self.front:
+            return "Queue is empty"
+        else:
+            return self.queue[0]
+
+
+q = Queue(10)
+print(q.queue)
+q.enqueue(1)
+print(q.queue)
+q.enqueue(2)
+q.enqueue(3)
+print(q.rear)
+print(q.isempty())
+print(q.dequeue())
+print(q.queue)
+print(q.dequeue())
+```
+
+### 큐를 이용한 Candy 문제
+
+```python
+# 20개의 사탕을 나눠주는데, 각 학생은 줄을 설때마다 한개씩을 더받고(1개, 2개, 3개...) 받고 나면 바로 뒤로 가서 줄을 선다. 1번학생이 시작해서, 다시한번 1번이 줄을 서고 + 2번, 그다음 2번 1번 3번이 줄을 서고 그다음 1번 3번 2번 4번...
+
+N = 20  # 사탕 개수
+# (0,0) [0] 사람번호, [1] 마지막으로 받은 사탕 개수
+queue = [(1,0)]
+new_person = 1
+# 마지막으로 사탕 받은 사람
+last_person = 0
+
+while N > 0:
+    num, cnt = queue.pop(0)  # 받으러온 사람, 저번까지 받은 개수
+    
+    last_person = num
+    cnt += 1  # 저번보다는 하나 더 챙기기
+
+    N -= cnt  # 챙긴만큼 N에서 값을 빼주기
+    new_person += 1
+
+    queue.append((num, cnt))
+    queue.append((new_person, 0))
+
+    print("큐에있는사람수:", len(queue))  # 큐에 있는 사람 수
+    print("현재까지 나눠준 사탕수:", 20-N)
+    for i in range(len(queue)):
+        if queue[i][1] >= 1:
+            print("현재 일인당 나눠주는 사탕수:", queue[i][0],"번 사람", queue[i][1], "개")
+    print()
+
+
+
 ```
 
 
