@@ -279,7 +279,9 @@ urlpatterns = [
 
 Project 폴더내에 templates 폴더 생성
 
-Settings.py - Templates - APP_DIRS = TRUE는 앱에 있는 템플릿경로는 기본적으로 활성화 되어 있음. but 프로젝트 파일내 경로는 직접 활성화 해야함. DIRS : []에 직접 작성할 수 있다. [BASE_DIR / '프로젝트명' / 'templates'] python pathlib 검색후 참조. 이 과정이 없으면 에러 남
+Settings.py - Templates - APP_DIRS = TRUE는 앱에 있는 템플릿경로는 기본적으로 활성화 되어 있음. but 프로젝트 파일내 경로는 직접 활성화 해야함. DIRS : []에 직접 작성할 수 있다. [BASE_DIR / '~경로명~' / 'templates'] 
+
+마스터 폴더에 둬도 되고, 프로젝트 폴더 안에 둬도 된다. python pathlib 검색후 참조. 이 과정이 없으면 에러 남
 
 ![image-20210308141723544](05_django.assets/image-20210308141723544.png)
 
@@ -486,3 +488,78 @@ url은 요청을 받아주고
 template 외형 및 보여질 내용을 짜주며
 
 view는 이 모든 구조를 해결해준다.
+
+
+
+SETTINGS
+
+INSTALLED_APPS 1 2 3 순위
+
+TEMPLATES 프로젝트 폴더에 만들면 TEMPLATES DIRS에 BASE_DIR / 프로젝트 폴더명 / templates?
+
+
+
+\# DOMAIN/lotto/
+
+path('lotto/', views.lotto) # URL명, 로또 함수불러올곳, name="" 임의의 이름설정
+
+ctrl + p vscode에서 파일 바로 열기
+
+
+
+\# 요청을 파일로 보내준다, 넘겨줄 데이터가 3번쨰 무조건 dict형태로
+
+def lotto(request):
+
+  lotto:sorted(random.sample(range(1, 46), 6))
+
+  return render(request, 'lotto.html')
+
+{{}}에 data. 필요없으며, (넘어왔으므로)
+
+![image-20210309111905688](05_django.assets/image-20210309111905688.png)
+
+## 장고 프로젝트 만드는 순서
+
+1. 빈폴더(프로젝트 Root) 만들기
+   1. gitignore 생성
+   2. git init으로 REPO초기화
+   3. README.md 생성
+   4. 원격저장소 생성 후 연결
+   5. add => commit => push
+2. 해당 폴더 이동후 `venv/`(가상독립환경)만든다. python -m venv venv
+3. 가상 독립환경을 활성화(activate)
+4. pip install django를 통해서 필요한 패키지들을 설치한다.
+5. `$ django admin startproject <project name> .` 명령어를 통해 프로젝트 초기화
+6. 프로젝트 진행
+
+## 프로젝트 열기
+
+바드시 프로젝트 루트 폴더에서 열기. 자동인식을 못함 VScode가
+
+
+
+## 프로젝트 독립환경 설정
+
+1. ctrl shift p
+2. `>python: select interpreter` 입력
+3. 자동완성 안되면 Path찾아서 설정하기
+4. 좌하단 Python 3.8.7 64bit('venv') 확인
+
+
+
+
+
+## 오늘 배운거
+
+장고는 html 이름이 같은경우 settings에서 INSTALLED_APPS에 기재된 순서를 보고 그걸 불러와서 제대로 호출이 안된다.
+
+그래서 template/app이름명폴더 하나 더 만들고/ 그밑에 html을 넣어 해결한다.
+
++ 대신 차지 못하므로 경로도 써준다.
+
+![image-20210309135747054](05_django.assets/image-20210309135747054.png)
+
+intcomma?
+
+![image-20210309164327119](05_django.assets/image-20210309164327119.png)
