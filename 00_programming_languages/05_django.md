@@ -38,6 +38,35 @@
 
 
 
+## 장고 프로젝트 만드는 순서
+
+1. 빈폴더(프로젝트 Root) 만들기
+   1. gitignore 생성
+   2. git init으로 REPO초기화
+   3. README.md 생성
+   4. 원격저장소 생성 후 연결
+   5. add => commit => push
+2. 해당 폴더 이동후 `venv/`(가상독립환경)만든다. python -m venv venv
+3. 가상 독립환경을 활성화(activate)
+4. pip install django를 통해서 필요한 패키지들을 설치한다.
+5. `$ django-admin startproject <project name> .` 명령어를 통해 프로젝트 초기화
+6. 프로젝트 진행
+
+## 프로젝트 열기
+
+반드시 프로젝트 루트 폴더에서 열기. venv 자동인식을 못함 VScode가
+
+
+
+## 프로젝트 독립환경 설정
+
+1. ctrl shift p
+2. `>python: select interpreter` 입력
+3. 자동완성 안되면 Path찾아서 설정하기
+4. 좌하단 Python 3.8.7 64bit('venv') 확인
+
+
+
 ## **프로젝트 개시**
 
 **One Project, One Virtual Environment**: 하나의 Project가 하나의 가상 환경을 역할한다.
@@ -87,9 +116,10 @@
 
 1. 원하는 폴더에서 Git bash 실행
 2. `django-admin startproject <원하는 프로젝트명>` 입력 **파이썬 컨벤션에 따라 숫자로 시작 불가**
-3. Django의 모든 명령어는 위처럼 3등분됨을 유의한다.
-4. 이 과정에서 서버는 이미 구동되어 있다.
-5. 해당 폴더에서(`manage.py` 확인) `python manage.py runserver` 입력시, 서버 Open
+3. `django-admin startproject <원하는프로젝트명> .` 으로 하면, 하위 경로가 하나 줄어든다.
+4. Django의 모든 명령어는 위처럼 3등분됨을 유의한다.
+5. 이 과정에서 서버는 이미 구동되어 있다.
+6. 해당 폴더에서(`manage.py` 확인) `python manage.py runserver 원하는포트번호(default 8000)` 입력시, 서버 Open
 
 ![image-20210308093130840](05_django.assets/image-20210308093130840.png)
 
@@ -154,7 +184,9 @@ TIME_ZONE = 'Asia/Seoul' # (기존은 UTC)
 
 ## 사이트 주소 설정
 
-> 작성순서 : [1] Url에 Path 작성
+> 작성순서 : [0] settings.py에 app등록
+>
+> [1] Url에 Path 작성
 >
 > [2] Views.py에 request 함수 작성[return render() 필수 유의]
 >
@@ -383,15 +415,38 @@ def catch(request):
 - 각 app에 urls.py를 작성
 - 중간관리자를 배치한다고 생각하면 된다.(URL부서 - 각 APP별 URL팀을 배치한다고 생각하면 편함)
 
-**Variable Routing**
+### **Variable Routing**
 
-- URL 자체를 동적으로 사용하여, 주소를 동적으로 변경시킨다.
+- URL 자체를 동적으로 사용하여, 주소를 동적으로 변경시키는 방법
+- Default 값 : str
 
 ![image-20210308155921013](05_django.assets/image-20210308155921013.png)
 
 - <str>의 경우는 생략가능하나, <int>는 생략불가능
 
-**Naming URL patterns**
+**활용예제**
+
+**practice0309 APP의 내역**
+
+<img src="05_django.assets/image-20210309210605500.png" alt="image-20210309210605500" style="zoom: 50%;" />
+
+**practice0309/urls.py**
+
+<img src="05_django.assets/image-20210309210707864.png" alt="image-20210309210707864" style="zoom:67%;" />
+
+**practice0309/views.py 내의 var_route 함수**
+
+![image-20210309210908890](05_django.assets/image-20210309210908890.png)
+
+**결과 출력 예시**
+
+> 임의의 숫자 110 입력시, 110이 출력되었다. 주소에도 110 잘 나온다.
+
+![image-20210309210955568](05_django.assets/image-20210309210955568.png)
+
+
+
+**Naming Space**
 
 - 링크에 URL을 직접 작성하는 것이 아닌, path()함수의 name인자를 정의해 사용
 - Django Template Tag 중 하나인 URL태그를 사용해서 path() 함수에 작성한 Name을 사용할 수 있음
@@ -443,7 +498,7 @@ urlpatterns =[
 
 **URL**이 보내온 Request를 받아 response(응답)을 반환함.(return HTML)
 
-
+####################################################################
 
 vscode & git bash
 
@@ -519,34 +574,7 @@ def lotto(request):
 
 ![image-20210309111905688](05_django.assets/image-20210309111905688.png)
 
-## 장고 프로젝트 만드는 순서
-
-1. 빈폴더(프로젝트 Root) 만들기
-   1. gitignore 생성
-   2. git init으로 REPO초기화
-   3. README.md 생성
-   4. 원격저장소 생성 후 연결
-   5. add => commit => push
-2. 해당 폴더 이동후 `venv/`(가상독립환경)만든다. python -m venv venv
-3. 가상 독립환경을 활성화(activate)
-4. pip install django를 통해서 필요한 패키지들을 설치한다.
-5. `$ django admin startproject <project name> .` 명령어를 통해 프로젝트 초기화
-6. 프로젝트 진행
-
-## 프로젝트 열기
-
-바드시 프로젝트 루트 폴더에서 열기. 자동인식을 못함 VScode가
-
-
-
-## 프로젝트 독립환경 설정
-
-1. ctrl shift p
-2. `>python: select interpreter` 입력
-3. 자동완성 안되면 Path찾아서 설정하기
-4. 좌하단 Python 3.8.7 64bit('venv') 확인
-
-
+##################################################################
 
 
 
@@ -563,3 +591,259 @@ def lotto(request):
 intcomma?
 
 ![image-20210309164327119](05_django.assets/image-20210309164327119.png)
+
+
+
+
+
+## BASE_DIR
+
+> Project Root directory와 Apps Directory를 담을, 최상단 폴더
+
+- 원하는 위치에 원하는 이름으로 **Folder 생성**
+  - 하위에 venv(virtual environment), Project와 Apps를 담게 될 폴더이다.
+
+- 폴더 내 **.gitignore**생성
+  - 첫 줄에 `venv/` 입력하여 예외처리
+  - `Django, Python, vscode, venv` 예외처리문구 추가
+- **pip freeze > requirement.txt** 실행
+
+
+
+## Project Directory
+
+> Project Root 생성
+>
+> 핵심요소 : STARTPROJECT, SETTINGS.PY[ INSTALLED_APPS, TEMPLATES ], URLS.PY, TEMPLATES DIR
+
+- `django-admin startproject <원하는 프로젝트명>` 입력
+
+  - `django-admin startproject <원하는프로젝트명> .` : 하위경로 하나 줄이기
+  - BASE_DIR - project - project(Root) / BASE_DIR - project(Root) 이처럼 동일 폴더 하나를 줄여줌.
+  - **파이썬 컨벤션에 따라 숫자로 시작 불가**
+
+- **settings.py**
+
+  - **INSTALLED_APPS** = [
+
+    #My App #생성한 앱 여기 추가
+
+    #Third party App
+
+    #Built-in App
+
+    ]
+
+  - **TEMPLATES** 내 **DIRS**에 [BASE_DIR / 'templates' , ] 혹은 [BASE_DIR / 'PROJECT DIR NAME' / 'templates']로 **base.html** 저장해 줄 TEMPLATES 생성
+
+  - **LANGUAGE_CODE = 'ko-kr ' / TIME_ZONE = 'Asia/Seoul' 등도 가능**
+
+  - TIME_ZONE의 경우, LOCAL 시간을 적용하려면 **USE_TZ = False**로 해주어야한다.
+
+- **urls.py**
+
+  - ![image-20210309230433924](05_django.assets/image-20210309230433924.png)
+  - 각 App에 urls.py 생성 후 사용한다면, import **include**하고 <Apps명.urls>로 Apps urls에 연결한다.
+  - 설정의 이유는, 각 app의 urls를 각각 관리하면 관리가 더 수월하기 때문.
+
+- **templates** Directory
+
+  - **Project Root Directory** 혹은, **BASE_DIR Directory**[ Project Root Folder와 같은 위치 ]에 templates 폴더 생성.
+  -  BOOTSTRAP 주소 등을 매번 입력하는 불편함을 없애고, SITE 내에서 공유하는 같은 양식을 쉽게 사용하기 위함
+  - **TEMPLATES**의 **extends & block** 참조
+  - ![image-20210309231006445](05_django.assets/image-20210309231006445.png)
+
+
+
+## App Directory [URLS.PY / VIEWS.PY /]
+
+> Project의 하위 개념으로, 각각 고유 기능을 가진 Page를 관리
+>
+> INSTALLED_APPS, Path, Variable Routing, URLPATTERNS, NAME
+
+- `python manage.py startapp <원하는 App Directory 명>`으로 App 생성
+- **BASE_DIR**
+  - **settings.py**에 App 추가
+- **PROJECT DIRECTORY**
+  - **urls.py **에 **Path()** 추가
+
+- **urls.py** 생성
+
+  - ![image-20210309234444501](05_django.assets/image-20210309234444501.png)
+  - import **path & views** 
+  - **urlpatterns** must be declared even **there is no path**
+  - **path**(URL명 지정[ **views 함수명과 통일 추천** ], views.함수명[ views.py는 제어 담당 ], Path 이름 지정)
+  - **name='x'**의 지정 : {% url %}에 사용 + **App명 변경**, **path가 과도히 길어진 경우**등에 편리함 위함
+  - **\<int:value>** : Variable Routing 참조
+
+- **Views.py** 수정
+  - import **render** Check
+  - **URL명**과 동일한 함수 정의
+  - ![image-20210310000309189](05_django.assets/image-20210310000309189.png)
+  - 
+
+
+
+# 정리할 거 순서
+
+project
+
+apps
+
+settings.py
+
+urls.py
+
+views.py
+
+templates
+
+공용 템플릿 생성
+
+템플릿 밑에 apps이름을?
+
+context
+
+
+
+
+
+## 로또 프로그램 예제
+
+- 폴더 구조
+- 
+
+
+
+
+
+## Django Model
+
+### MODEL
+
+> 웹 어플리케이션의 데이터를 구조화하고 조작하기 위한 도구 즉, DB 조작 도구
+
+```python
+from django.db import models
+
+# Create your models here.
+class Article(models.Model):  # 첫글자 대문자, Model 불러오며 단수형작성
+    # models 상속 받아 설계도 작성
+    # title, content = Column(모델 필드)
+    # charfield = 길이에 제한이 있는 TextField
+    title = models.models.CharField(max_length=10) # Column = 필드명, 모델필드생성
+    content = models.TextField()
+```
+
+
+
+- 단일한 데이터에 대한 정보를 가짐
+  - 사용자가 저장하는 데이터들의 필수적인 필드들과 동작들을 포함
+- 저장된 DB의 구조(Layout)
+- Django : Model을 통해 데이터 접속, 관리
+- 각각의 Model, 하나의 DB Table에 Mapping
+
+**MODEL != DB 그렇다면 DB는?**
+
+### DATABASE
+
+- 데이터베이스(DB)
+  - 체계화된 데이터의 모임
+- **쿼리(Query)**
+  - 데이터를 조회하기 위한 명령어
+  - 조건에 맞는 데이터를 추출, 조작하는 명령어
+
+
+
+**DB 기본구조**
+
+- 스키마(Schema)
+
+  - 데이터베이스에서 자료의 구조, 표현방법, 관계 등을 정의한 구조 (Structure)
+
+  - DB의 구조와 제약 조건에 관해 전반적인 명세를 기술한 것이다.
+
+    - |스키마예제| column | datatype |
+      | ------ | -------- | ------ |
+      | 스키마 예제이다. | id |INT|
+    |  | age |INT|
+      |  | phone |TEXT|
+      |  | email |TEXT|
+    
+    - ![image-20210310135023806](05_django.assets/image-20210310135023806.png)
+
+- 테이블(Table)
+
+  - 열과 행의 모델을 사용해 조직된 데이터 요소들의 집합(실제 데이터)
+  
+  - SQL에서는 테이블을 **관계**라고도 부른다.
+  
+  - Column : **필드(Field)** / 속성 등으로 칭함
+  
+    - 각 열에는 고유한 데이터 형식이 지정된다.
+  
+  - Row : **레코드(Record)** / 튜플 등으로 칭함
+  
+    - 테이블의 데이터는 행에 저장. 하나의 자료가 새로 추가될때, 행이 한줄 추가된다.
+  
+  - PK(Primary Key): 기본키. 각 행(레코드)의 고유값으로 Primary Key라고 불린다.
+  
+  - | id(PK) | name | age  | phone         | email          |
+    | ------ | ---- | ---- | ------------- | -------------- |
+    | 1      | hong | 42   | 010-1234-5678 | hong@gmail.com |
+
+
+
+## ORM
+
+> Object-Relational-Mapping. DB를 객체(Object)로 조작하기 위해 ORM 사용
+
+- 객체 지향 프로그래밍 언어 사용, **호환되지 않은 유형의 시스템간(Eg. Django-SQL) 데이터를 변환**하는 프로그래밍 기술.
+- **가상 객체 데이터베이스**를 만들어 사용
+- 사용하던 OOP를 통해, (Python) 다른 시스템의 언어를 조작(SQL). 이 사이에서 객체(Python)와 관계(DB)를 매핑(Django)하는 기술
+
+
+
+**장/단점**
+
+- 장점
+  - SQL 몰라도 DB 조작이 가능
+  - SQL의 절차적 접근이 아닌 객체 지향적 접근으로 높은 생산성
+- 단점
+  - ORM만으로 완전한 서비스 구현이 어려움
+- **현대 웹프레임워크 요점은 웹개발의 속도를 높이는 것(생산성)**
+
+
+
+## Migrations
+
+> Django가 Model에 생긴 변화(필드 추가, 모델 삭제 등)을 반영하는 방법
+>
+> 각각 하나하나의 설계도는 Migration이라 칭함
+
+- Migration 실행 및 DB 스키마를 다루기 위한 몇가지 명령어가 존재
+  - **makemigrations** #아주중요
+    - Model을 변경한 것에 기반한 새로운 마이그레이션(like 설계도)를 만들 때 사용
+    - 만든 **Class** 설계도를, **ORM이 해석할 수 있도록 만들어주는** 과정이다.
+  - **migrate** #아주중요
+    - makemigrations로 만들어진 설계도(Migration)을, DB에 반영하기 위해 사용
+    - 설계도를 실제 DB에 반영하는 과정
+    - 모델에서의 변경 사항들과 DB의 스키마가 동기화를 이룸
+    - 이전까지 비어있던 DB, 동기화 통해서 **자료가 실제 삽입되는 과정**
+  - sqlmigrate
+  - showmigrations
+
+
+
+
+
+# 2시 수업 자료
+
+![image-20210310141522031](05_django.assets/image-20210310141522031.png)
+
+
+
+맨아래는 save까지 한번에 하는 방법
+
+
+
