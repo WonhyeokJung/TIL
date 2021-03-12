@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}
+  DETAILS
+{% endblock title %}
+
+{% block body %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="card m-2 col-4">
+        <h2 class="ps-2 pt-2 font-monospace text-center"> {{ movie.title }} </h2>
+        <img src="{{ movie.poster_path }}">
+        <p class="ps-2 pt-2 font-monospace">{{ movie.overview }}</p>
+      </div>
+    </div>
+  </div>
+  <a href="{% url 'index' %}" class="my-2 mx-5 btn btn-secondary text-decoration-none">돌아가기</a>
+{% endblock body %}
+

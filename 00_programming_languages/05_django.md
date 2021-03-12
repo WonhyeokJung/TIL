@@ -251,6 +251,8 @@ urlpatterns = [
 
 ![image-20210308105909268](05_django.assets/image-20210308105909268.png)
 
+# Template
+
 ## Django Template
 
 > 가공된 데이터를 받아 잘 표현하는 것이 목표. HTML을 더 강렬하게 표현해주기 위해 사용
@@ -715,9 +717,13 @@ context
 
 
 
-
+# MODEL
 
 ## Django Model
+
+**필수사항** : **vscode SQLite 설치** / **pip install django django_extensions ipython** / 
+
+​				  **INSTALLED_Apps 3rd party에 django_extensions 추가**
 
 ### MODEL
 
@@ -792,7 +798,16 @@ class Article(models.Model):  # 첫글자 대문자, Model 불러오며 단수�
     | ------ | ---- | ---- | ------------- | -------------- |
     | 1      | hong | 42   | 010-1234-5678 | hong@gmail.com |
 
+### Model.py
 
+> App 폴더 내에 존재하는, DB 관리 전용 Python파일
+
+![image-20210311003500050](05_django.assets/image-20210311003500050.png)
+
+**Class**
+
+- 각 DB를 담당. models의 Model Class를 상속받아 사용
+- Class내 객체들은 각각 **Column**이며, 반드시 **Field값**을 하나 상속 받아야 한다.
 
 ## ORM
 
@@ -823,17 +838,150 @@ class Article(models.Model):  # 첫글자 대문자, Model 불러오며 단수�
 
 - Migration 실행 및 DB 스키마를 다루기 위한 몇가지 명령어가 존재
   - **makemigrations** #아주중요
-    - Model을 변경한 것에 기반한 새로운 마이그레이션(like 설계도)를 만들 때 사용
+    - **Model을 변경한 것**에 기반한 새로운 마이그레이션(like 설계도)를 만들 때 사용
     - 만든 **Class** 설계도를, **ORM이 해석할 수 있도록 만들어주는** 과정이다.
-  - **migrate** #아주중요
+    - `python manage.py makemigrations`
+    - 실행시, migrations한 각 App의 migrations 폴더에 **initial.py**라는 파일이 생긴다.
+    - 이 파일은 **설계도**, **Git Version 관리처럼** 코드 수정이 유용하도록 하는 것이다.
+    - **initial.py** : **ID** 생성, 그 외 항목은 내가 Model Class에 만든 Column으로 생성됨.
+  - **migrate** #아주중요 
+    - `python manage.py migrate`
     - makemigrations로 만들어진 설계도(Migration)을, DB에 반영하기 위해 사용
     - 설계도를 실제 DB에 반영하는 과정
-    - 모델에서의 변경 사항들과 DB의 스키마가 동기화를 이룸
+    - 모델에서의 변경 사항들과 DB의 스키마가 동기화를 이룸(MODEL과 SQL이 같아지는 순간)
     - 이전까지 비어있던 DB, 동기화 통해서 **자료가 실제 삽입되는 과정**
+    - migrate후, **db.sqlite3** 우클릭 - Open database로 SQL 목록 확인이 가능하다. 
+    - ![image-20210311004902237](05_django.assets/image-20210311004902237.png)
+    - 위처럼 해석하여, DB로 보내겠다는 의미이다.
   - sqlmigrate
+    - `python manage.py sqlmigrate <앱명 번호>` *articles 0001 0001_initial.py 확인*
+    - 마이그레이션에 대한 SQL 구문을 보기 위해 사용
+    - 마이그레이션이 SQL문으로 어떻게 해석되어서 동작할 지 미리 확인 가능
   - showmigrations
+    - `python manage.py showmigrations`
+    - 프로젝트 전체의 마이그레이션 상태를 확인하기 위해 사용
+    - 마이그레이션 파일들이 **migrate 됐는지 안됐는지 여부**를 확인할 수 있음
+    - ![image-20210311005207144](05_django.assets/image-20210311005207144.png)
+    - 위 사진은, migration **되었다**는 의미이다.(Checked)
+
+### Field 추가 후 Migration 방법
+
+1. 수정하려는 Class에 Column(Field) 추가 작성
+2. **makemigrations** 실시
+   1. 수정 후, **migrates** 먼저 실시하면 반응 **X Why?** **Migrate 할 것이 없기 때문**이다. 
+3. 2가지 질문이 출력된다.(**기존 데이터엔 자료가 없는 Column이 생기기 때문에 뭐 적을지 묻는다.**)
+   1. 1) 기본값을 줄 것인가, 아니면 2) 취소하고 내가 직접 default 값을 입력
+   2. 1) 선택시 시간 관련 Column 추가했으면, timezone.now 이용하여 현재 시간을 입력해준다고 묻는다.
+4. **migrate** 실시
 
 
+
+## MODEL - DB생성 순서***
+
+1. **App - models.py**
+   - model 변경사항 발생
+2. **python manage.py makemigrations**
+   - migrations 파일 생성
+3. **python manage.py migrate**
+   - DB 적용
+
+# DATABASE API
+
+> DATABASE APPLICATION 간의 의사소통, 상호작용
+
+- **DB와 Server, DB와 프로그래밍 언어 간의 소통**을 원활하게 돕는다.
+
+**DB API**
+
+> Python으로 DATA를 제어하기 위해 사용
+
+- **DB를 조작하기 위한 도구**
+- Django가 기본적으로 ORM을 제공함에 따른 것으로 DB를 편하게 조작할 수 있도록 돕는다.
+- Model을 만들면, Django는 **database-abstract API**를 자동생성하여, DB를 제어할 수 있게 한다.
+- **database-access API**라고 불리기도 한다.
+
+
+
+## DB API 구문 - Making Queries
+
+> <MODEL CLASS 명> / <MANAGER> / <QuerySet API>의 구조
+
+- **Article.objects.all()**의 구조를 가진다.
+
+**Class Name**
+
+- 내가 모델에 정의한 Class Namde이다.
+
+**Manager**
+
+- 모델을 만들면 **DB API**에서 **자동으로 생성**
+- Django가 DB를 조작하려면 Method가 필요한데, Method 사용을 위해 중간에 제공되는 Interface 역할
+
+- 기본적으로 모든 django Model Class에 objects라는 Manager를 추가
+- **DB 조작 위한 명령어(Method())들을 담고 있다.**
+- **의미부여할 필요없고, 그냥 무조건 필요함을 기억해둘 것**
+
+**QuerySet API**
+
+- Method / 목적 : **CRUD**
+- DB로부터 받은 객체 목록 / **\*List처럼 조작 가능\***
+- **객체는 0개~ 여러 개일 수 있음**(DATA가 없을 수도 있고, 있을 수도 있고, 중복이 많을 수도 있으므로)
+- DB로부터 조회, 필터, 정렬 등을 수행할 수 있음
+- **자료를 QuerySet으로 반환**한다.
+- **Django Queryset API** :  https://docs.djangoproject.com/en/3.1/ref/models/querysets/#queryset-api-reference
+
+- 크게 2가지가 존재한다.
+  - **QuerySet**을 반환하는 Method / **filter()**
+  - QuerySet을 반환하지 않고 **단일객체**를 반환하는 Method /**get()**
+
+## Shell & Shell_plus
+
+> Console, Terminal. 사람이 이해하기 쉬운 언어(자연어)를 입력하면 해석하여 Kernel에 전달해주는 Program
+
+- Python Shell은 Django의 기능을 다 담지 못하여 (Article.objects.all() 등처럼 파이썬 문법에 어긋나는 방식)
+
+  **Django는 기본 내장 Shell**을 제공하고 있다. But, 기능이 부족하여 좀 더 편한 환경을 위해
+
+  **django_extensions(확장 프로그램, 라이브러리)**의 **shell_plus**을 이용한다.
+
+- shell_plus는 shell에서 사용할만한 것들을 자동적으로 **import**
+
+0. `pip install ipython`  / **파이썬 기본shell보다 더 많은 기능을 제공하는 shell**
+
+1. `pip install django-extensions`
+2. Django **INSTALLED_APPS**에 **3rd Party** 위치에 **'django_extensions'** 추가
+3. `python manage.py shell_plus`
+4. 아무 App이름이나 입력해보기. `package명.models.App명(articles.models.Article)`이 출력될 것.
+5. 종료시 `exit`
+
+
+
+## CRUD
+
+> Create(생성), Read(읽기), Update(갱신), Delete(삭제)를 묶어서 일컫는 말
+
+- 대부분의 컴퓨터 Software가 가지는 기본적인 데이터 처리 기능
+- **DB조작의 목적**이며, **QuerySet Api**의 목적
+
+### Create(생성)
+
+# Virtual Environment (가상환경)
+
+> 파이썬 인터프리터, 라이브러리 및 스크립트가 "시스템 파이썬"에 설치된 모든 라이브러리와 격리되어있는 파이썬 환경
+
+- 각 가상환경은 **고유한 파이썬 환경**을 가지며, 독립적으로 설치된 패키지 집합을 가짐
+
+**대표적인 가상환경 지원 시스템**
+
+- venv, virtualenv, conda, pyenv
+- 파이썬 3.3부터 **venv가 기본 모듈**로 내장
+- **파이썬 버젼과 라이브러리**를 각 환경에 맞게 사용 가능 
+
+**WHY?**
+
+- pip로 설치한 패키지들은 **Lib/site-packages**에 저장되는데,  **모든** 파이썬 스크립트에서 사용가능
+- 그런데 여러 프로젝트를 진행하게 되면, **다른 버전의 라이브러리**가 필요할 수도 있으나 파이썬에선 한 라이브러리에 대해 하나의 버전만 설치가 가능
+- 각 라이브러리나 모듈은 서로에 대한 의존성(dependency)도 다르기 때문에 알 수 없는 충돌이 발생하거나 다른 여러 문제를 일으킬 수 있게 된다.
 
 
 
@@ -843,7 +991,26 @@ class Article(models.Model):  # 첫글자 대문자, Model 불러오며 단수�
 
 
 
+
+
+- ADMIN관련
+- ![image-20210311120142360](05_django.assets/image-20210311120142360.png)
+- ![image-20210311120151792](05_django.assets/image-20210311120151792.png)
+- ![image-20210311115634428](05_django.assets/image-20210311115634428.png)
+
+
+
+![image-20210311115401776](05_django.assets/image-20210311115401776.png)
+
+튜플 리스트 둘다 가능
+
+![image-20210311115423062](05_django.assets/image-20210311115423062.png)
+
+
+
 맨아래는 save까지 한번에 하는 방법
+
+pm자료에 Admin 설정방법 기록되어 있음.
 
 
 

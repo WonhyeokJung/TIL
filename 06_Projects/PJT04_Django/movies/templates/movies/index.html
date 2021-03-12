@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}INDEX PAGE{% endblock title %}
+
+{% block body %}
+  <div class="justify-content-center">
+    <a href="{% url 'new' %}" class="m-2 btn btn-primary">새로 작성</a>
+  </div>
+  <div class="container">
+    <div class="row justify-content-center">
+    {% for movie in movies %}
+      <div class="card col-3 m-3">
+        <img src="{{ movie.poster_path }}">
+        <a href="{% url 'detail' movie.pk %}" class="ps-2 pt-2 font-monospace">{{ movie.title }}</a>
+        {% comment %} <p class="px-2 text-start font-monospace">{{ movie.overview }}</p> {% endcomment %}
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+  
+{% endblock body %}
+
+
+
